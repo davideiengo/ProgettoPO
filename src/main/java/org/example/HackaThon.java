@@ -83,14 +83,6 @@ public class HackaThon {
         }
 
     }
-    public boolean giudiceAppartiene(Utente utente) {
-        for (Utente elem : this.utentiRegistrati) {
-            if (elem.equals(utente)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     public void setAppartiene(){
         this.appartiene = true;

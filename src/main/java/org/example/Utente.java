@@ -35,10 +35,4 @@ public class Utente {
     public boolean getRegistrato() {
         return this.registrato;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Utente utente)) return false;
-        return eGiudice == utente.eGiudice && this.nome.equals(utente.nome);
-    }
 }
