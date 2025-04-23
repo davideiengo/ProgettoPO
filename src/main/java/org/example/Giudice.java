@@ -15,7 +15,7 @@ public class Giudice extends Utente {
             this.voto = voto;
             team.setVotoFinale(voto);
         }else{
-            System.out.println("Soltanto i giudici posso selezionare i spaccimma di voti froci del cazzo voi non potete");
+            System.out.println("Soltanto i giudici posso selezionare i voti");
         }
     }
 }
