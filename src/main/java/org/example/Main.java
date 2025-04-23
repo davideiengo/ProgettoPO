@@ -1,17 +1,32 @@
 package org.example;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+
+import java.util.Objects;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
-
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+        Organizzatore organizzatoreMarco = new Organizzatore("Marco");
+        HackaThon hackaThonFrancia = new HackaThon(1, organizzatoreMarco, "ProvaCompetition");
+        Giudice giudice1 = new Giudice();
+        hackaThonFrancia.permettiIscrizioni(organizzatoreMarco);
+        Team tem1 = new Team(1, "Feccia");
+        Team tem2 = new Team(1, "Feccia2");
+        Team tem3 = new Team(1, "Feccia3");
+        hackaThonFrancia.registraTeam(tem1);
+        hackaThonFrancia.registraTeam(tem2);
+        hackaThonFrancia.registraTeam(tem3);
+        Utente utente1 = new Utente();
+        Utente utente2 = new Utente();
+        Utente utente3 = new Utente();
+        Utente utente4 = new Utente();
+        utente2.effettuaRegistrazione(hackaThonFrancia);
+        utente3.effettuaRegistrazione(hackaThonFrancia);
+        utente4.effettuaRegistrazione(hackaThonFrancia);
+        utente1.effettuaRegistrazione(hackaThonFrancia);
+        organizzatoreMarco.sceltaGiudice(utente1, hackaThonFrancia);
+        giudice1.creaProblema(hackaThonFrancia, utente1);
+        giudice1.sceltaVoto(tem1, 5, utente1, hackaThonFrancia);
+        giudice1.sceltaVoto(tem2, 1, utente1, hackaThonFrancia);
+        hackaThonFrancia.pubblicaClassifica();
     }
 }
