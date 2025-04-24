@@ -7,38 +7,31 @@ public class Team {
     private String nomeTeam;
     private ArrayList<Utente> membri;
 
-    public int getDimMassimaTeam() {
-        return dimMassimaTeam;
+    public Team(HackaThon hackaThon, String nomeTeam) {
+        this.dimMassimaTeam = hackaThon.getDimensioneMaxTeam();
+        membri = new ArrayList<>(this.dimMassimaTeam);
+        this.nomeTeam = nomeTeam;
     }
 
-    public void setDimMassimaTeam(int dimMassimaTeam) {
-        this.dimMassimaTeam = dimMassimaTeam;
+    public int getDimMassimaTeam() {
+        return dimMassimaTeam;
     }
 
     public String getNomeTeam() {
         return nomeTeam;
     }
 
-    public ArrayList<Utente> getMembri() {
+    public ArrayList<Utente> getUtenti() {
         return membri;
     }
 
-    public void setMembri(ArrayList<Utente> membri) {
-        this.membri = membri;
-    }
-
-    public Team(int dimensioneMaxTeam, String nomeTeam) {
-        this.dimMassimaTeam = dimensioneMaxTeam;
-        membri = new ArrayList<>(this.dimMassimaTeam);
-        this.nomeTeam = nomeTeam;
-    }
-
     public void aggiungiUtente(Utente utente) {
-        if (membri.size() < dimMassimaTeam && utente.getRegistrato()) {
-            membri.add(utente);
+        if (!(utente instanceof Giudice) && membri.size() < dimMassimaTeam && utente.getRegistrato()) {
+            this.membri.add(utente);
             System.out.println("Il membro: " + utente.getNome() + " è stato aggiunto al team");
-        } else {
-            System.out.println("Il team è al completo o non è registrato");
+        }
+        else {
+            System.out.println("Il team potrebbe essere al completo, stai provando ad aggiungere un giudice al tuo team, l'utente che hai provato ad inserire non è registrato a questa hackathon");
         }
     }
 
@@ -48,7 +41,11 @@ public class Team {
     }
 
     public void setVotoFinale(int votoFinale) {
-        this.votoFinale = votoFinale;
+        if (this.votoFinale == -1)
+            this.votoFinale = votoFinale + this.votoFinale + 1;
+        else{
+            this.votoFinale = votoFinale + this.votoFinale;
+        }
     }
 
     public int getVotoFinale() {

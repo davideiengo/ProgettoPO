@@ -4,14 +4,9 @@ public class Utente {
 
     private String nome;
     private boolean registrato = false;
-    private boolean eGiudice = false;
 
-    public void setGiudice(){
-        this.eGiudice = true;
-    }
-
-    public boolean getGiudice(){
-        return this.eGiudice;
+    public Utente(String nome){
+        this.nome = nome;
     }
 
     public void setNome(String nome) {

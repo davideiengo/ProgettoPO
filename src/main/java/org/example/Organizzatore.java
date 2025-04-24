@@ -16,9 +16,8 @@ public class Organizzatore {
         hackaThon.permettiIscrizioni(this);
     }
 
-    public void sceltaGiudice(Utente utente, HackaThon hackaThon){
-        if(utente.getRegistrato()) {
-            utente.setGiudice();
+    public void sceltaGiudice(Giudice giudice, HackaThon hackaThon){
+        if(giudice.getRegistrato()) {
             hackaThon.setAppartiene();
         }
         else{
