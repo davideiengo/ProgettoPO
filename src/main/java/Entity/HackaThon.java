@@ -1,4 +1,4 @@
-package org.example;
+package Entity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -61,9 +61,11 @@ public class HackaThon {
         }
     }
 
-    public void registraUtente(Utente utente) {
+
+    public void registraUtente(Utente utente){
         utentiRegistrati.add(utente);
     }
+
 
     public ArrayList<Utente> getUtentiRegistrati() {
         return utentiRegistrati;
@@ -106,4 +108,8 @@ public class HackaThon {
     public ArrayList<Team> getTeamsRegistrati(){
         return this.teamsRegistrati;
     }
+    public Organizzatore getOrganizzatore() {
+        return this.organizzatore;
+    }
+
 }

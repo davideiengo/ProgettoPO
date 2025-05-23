@@ -1,4 +1,4 @@
-package org.example;
+package Entity;
 import java.util.ArrayList;
 
 public class Team {
@@ -25,15 +25,17 @@ public class Team {
         return membri;
     }
 
-    public void aggiungiUtente(Utente utente) {
+    public boolean aggiungiUtente(Utente utente) {
         if (!(utente instanceof Giudice) && membri.size() < dimMassimaTeam && utente.getRegistrato()) {
             this.membri.add(utente);
             System.out.println("Il membro: " + utente.getNome() + " è stato aggiunto al team");
-        }
-        else {
+            return true;
+        } else {
             System.out.println("Il team potrebbe essere al completo, stai provando ad aggiungere un giudice al tuo team, l'utente che hai provato ad inserire non è registrato a questa hackathon");
+            return false;
         }
     }
+
 
     public void setNomeTeam(String nomeTeam) {
         this.nomeTeam = nomeTeam;
