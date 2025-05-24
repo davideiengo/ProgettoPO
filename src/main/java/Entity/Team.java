@@ -9,7 +9,6 @@ public class Team {
     private ArrayList<Utente> membri;
     private HackaThon hackathon;
 
-
     private int sommaVoti = 0;
     private int numeroVoti = 0;
     private HashSet<String> giudiciCheHannoVotato = new HashSet<>();
@@ -37,23 +36,18 @@ public class Team {
         return membri;
     }
 
-
     public boolean aggiungiUtente(Utente utente) {
         if (!(utente instanceof Giudice) && membri.size() < dimMassimaTeam && utente.getRegistrato()) {
             membri.add(utente);
-            System.out.println("Il membro: " + utente.getNome() + " è stato aggiunto al team");
             return true;
         } else {
-            System.out.println("Errore: il team è pieno, l'utente non è registrato, oppure è un giudice.");
             return false;
         }
     }
 
-    // Aggiungi un voto da un giudice (solo se non ha già votato)
     public boolean assegnaVoto(String nomeGiudice, int voto) {
         if (giudiciCheHannoVotato.contains(nomeGiudice)) {
-            System.out.println("Il giudice " + nomeGiudice + " ha già votato questo team.");
-            return false;
+            return false; // già votato
         }
 
         sommaVoti += voto;
@@ -66,8 +60,8 @@ public class Team {
         return numeroVoti == 0 ? -1 : sommaVoti / numeroVoti;
     }
 
-    public int getNumeroVoti() {
-        return numeroVoti;
+    public boolean isVotato() {
+        return numeroVoti > 0;
     }
 
     @Override
@@ -76,7 +70,3 @@ public class Team {
         return nomeTeam + " - Voto medio: " + (media == -1 ? "N.D." : media);
     }
 }
-
-
-
-

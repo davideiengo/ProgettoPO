@@ -132,7 +132,7 @@ public class HackaThon {
         ArrayList<Team> nonVotati = new ArrayList<>();
 
         for (Team team : teamsRegistrati) {
-            if (team.getNumeroVoti() > 0) {
+            if (team.isVotato()) {
                 votati.add(team);
             } else {
                 nonVotati.add(team);
@@ -144,25 +144,24 @@ public class HackaThon {
             return;
         }
 
-        // Ordina in base alla media voti decrescente (dal più alto al più basso)
-        Collections.sort(votati, (t1, t2) -> Integer.compare(t2.getMediaVoti(), t1.getMediaVoti()));
+        votati.sort((t1, t2) -> Integer.compare(t2.getMediaVoti(), t1.getMediaVoti()));
 
-        System.out.println("🏆 Classifica dei Team Votati:");
+        System.out.println("🏆 Classifica dei Team:");
         int posizione = 1;
         for (Team team : votati) {
             System.out.println(posizione++ + ". " + team.getNomeTeam() + " - Media voto: " + team.getMediaVoti());
         }
 
         if (!nonVotati.isEmpty()) {
-            System.out.println("\n Team non ancora votati:");
+            System.out.println("\nTeam non ancora votati:");
             for (Team team : nonVotati) {
                 System.out.println("- " + team.getNomeTeam());
             }
         }
 
         this.classificaPubblicata = true;
-
     }
+
 
 
     public void setAppartiene() {

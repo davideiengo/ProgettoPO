@@ -1,7 +1,11 @@
 package View;
 
+import Controllers.ValutazioneTeamController;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ValutazioneTeamView extends JFrame {
     private JComboBox<String> comboTeam;
@@ -15,7 +19,6 @@ public class ValutazioneTeamView extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(new GridLayout(4, 1));
-
 
         comboTeam = new JComboBox<>();
         spinnerVoto = new JSpinner(new SpinnerNumberModel(1, 1, 10, 1));

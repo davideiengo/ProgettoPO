@@ -6,23 +6,12 @@ public class Giudice extends Utente {
         this.setRegistrato(utente.getRegistrato());
     }
 
-    public void creaProblema(HackaThon hackaThon) {
-        if (hackaThon.getAppartiene()) {
-            System.out.println("Ecco il problema per l'hackaThon: " + hackaThon.getTitoloIdentificativo());
-        } else {
-            System.out.println("Soltanto l'utente Giudice può pubblicare il problema, controlla se esso appartiene all'hackathon dove vuoi pubblicare il problema");
-        }
-    }
-
     public void sceltaVoto(Team team, int voto, HackaThon hackathon) {
         if (!hackathon.getTeams().contains(team)) return;
+
         boolean successo = team.assegnaVoto(this.getNome(), voto);
         if (!successo) {
-            System.out.println("Questo giudice ha già votato questo team.");
+            System.out.println("⚠ Il giudice ha già votato questo team.");
         }
     }
-
-
-
 }
-

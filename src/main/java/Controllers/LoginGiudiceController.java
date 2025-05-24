@@ -75,7 +75,6 @@ public class LoginGiudiceController {
                         if (GiudiceModel.getInstance().verificaPassword(g, password)) {
                             JOptionPane.showMessageDialog(view, "Accesso effettuato con successo!");
                             new ValutazioneTeamController(hackathon.getTitoloIdentificativo(), g);
-                            view.dispose();  // Chiudi il login
                             return;
                         } else {
                             JOptionPane.showMessageDialog(view, "Password errata.");
