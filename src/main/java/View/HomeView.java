@@ -11,6 +11,7 @@ public class HomeView extends JFrame{
     private JButton btnRegistraUtente;
     private JButton btnLoginOrganizzatore;
     private JButton btnGestioneTeam;
+    private JButton btnAreaGiudice;
     private JButton diventaOrganizzatoreButton;
     private JButton organizzatore;
     HomeController controller = new HomeController(this);
@@ -46,6 +47,12 @@ public class HomeView extends JFrame{
             public void mouseClicked(MouseEvent e) {
                 setVisible(false);
                 new TeamCreationView();
+            }
+        });
+        btnAreaGiudice.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                controller.apriLoginGiudice();
             }
         });
     }

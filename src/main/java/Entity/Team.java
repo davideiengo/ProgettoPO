@@ -16,7 +16,6 @@ public class Team {
         this.dimMassimaTeam = hackaThon.getDimensioneMaxTeam();
         membri = new ArrayList<>(this.dimMassimaTeam);
         this.nomeTeam = nomeTeam;
-        hackaThon.aggiungiTeam(this);
     }
 
     public int getDimMassimaTeam() {

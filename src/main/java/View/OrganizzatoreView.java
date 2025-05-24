@@ -17,6 +17,7 @@ public class OrganizzatoreView extends JFrame {
     private JTextField txtDimMaxTeam;
     private JButton returnHome;
     private JButton btnApriRegistrazioni;
+    private JButton btnSelezionaGiudice;
     private OrganizzatoreController controller;
 
     public OrganizzatoreView() {
@@ -25,6 +26,8 @@ public class OrganizzatoreView extends JFrame {
         setVisible(true);
         setName("Organizzatore");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+
 
         controller = new OrganizzatoreController(this, new OrganizzatoreModel());
 
@@ -58,6 +61,12 @@ public class OrganizzatoreView extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 controller.ritornaHome();
+            }
+        });
+        btnSelezionaGiudice.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                controller.apriVistaSelezioneGiudice();
             }
         });
     }

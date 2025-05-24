@@ -30,11 +30,6 @@ public class TeamMembersSelectionView extends JFrame {
             }
         }
 
-
-        for (Utente u : hackathon.getUtentiRegistrati()) {
-            modelList.addElement(u.getNome());
-        }
-
         listaUtenti = new JList<>(modelList);
         panel.add(new JScrollPane(listaUtenti), BorderLayout.CENTER);
 

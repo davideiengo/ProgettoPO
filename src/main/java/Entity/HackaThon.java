@@ -14,18 +14,40 @@ public class HackaThon {
     private ArrayList<Team> teamsRegistrati = new ArrayList<>();
     private boolean statusRegistrazioni = false;
     private boolean appartiene = false;
-
+    private ArrayList<Giudice> giudici = new ArrayList<>();
 
     public HackaThon(int dimensioneMaxTeam, Organizzatore organizzatore, String titoloIdentificativo) {
-        if (HackathonRegistry.esisteHackathon(titoloIdentificativo)) {
+        if (titoloIdentificativo == null || titoloIdentificativo.trim().isEmpty()) {
+            throw new IllegalArgumentException("Il titolo dell'hackathon non può essere vuoto o nullo.");
+        }
+
+        this.titoloIdentificativo = titoloIdentificativo;
+
+        if (HackathonRegistry.esisteHackathon(this.titoloIdentificativo)) {
             throw new IllegalArgumentException("Esiste già un hackathon con questo nome!");
         }
 
-        HackathonRegistry.registraHackathon(titoloIdentificativo);
+        HackathonRegistry.registraHackathon(this.titoloIdentificativo);
+
         this.dimensioneMaxTeam = dimensioneMaxTeam;
         this.organizzatore = organizzatore;
-        this.titoloIdentificativo = titoloIdentificativo;
     }
+
+
+
+    public void aggiungiGiudice(Giudice g, String password) {
+        if (g != null && password != null && !password.isEmpty() && !giudici.contains(g)) {
+            giudici.add(g);
+            g.setRegistrato(true);
+
+        }
+    }
+
+    public ArrayList<Giudice> getGiudici() {
+        return giudici;
+    }
+
+
 
     public void permettiIscrizioni(Organizzatore organizzatore) {
         if (this.organizzatore == organizzatore) {
@@ -64,11 +86,16 @@ public class HackaThon {
             System.out.println("Errore: esiste già un team con questo nome.");
             return;
         }
-        if (team.getDimMassimaTeam() <= this.dimensioneMaxTeam && !team.getUtenti().isEmpty() && tuttiRegistrati) {
+        if (team.getUtenti().isEmpty()) {
+            System.out.println("Errore: impossibile registrare un team vuoto.");
+            return;
+        }
+
+        if (team.getDimMassimaTeam() <= this.dimensioneMaxTeam && tuttiRegistrati) {
             teamsRegistrati.add(team);
             TeamRegistry.registraTeam(team.getNomeTeam());
         } else {
-            System.out.println("Il team non è stato registrato: Questo può accadere perchè un utente non è registrato alla stessa hackathon dove si vuole registrare il team, il team è pieno oppure si sta cercando di registrare un team vuoto");
+            System.out.println("Il team non è stato registrato: Un utente potrebbe non essere registrato, oppure il team è troppo grande.");
         }
     }
 

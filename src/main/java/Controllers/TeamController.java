@@ -43,22 +43,35 @@ public class TeamController {
                 return; // Blocca la creazione
             }
 
+            // SOLO CREA il team, NON LO REGISTRA né lo aggiunge
             team = model.creaTeam(nomeTeam, selectedHackathon);
+
+            // Apre la finestra per selezionare membri
             new TeamMembersSelectionView(team, selectedHackathon);
         }
     }
 
 
+
     public void creaTeam() {
-            if (team != null) {
-                if (team.getUtenti().size() > team.getDimMassimaTeam()) {
-                    JOptionPane.showMessageDialog(view, "Registrazione fallita: Il numero di membri del team supera il limite massimo consentito.");
-                } else {
-                    selectedHackathon.registraTeam(team);
-                    JOptionPane.showMessageDialog(view, "Team registrato correttamente!");
-                }
+        if (team != null) {
+            if (team.getUtenti().isEmpty()) {
+                JOptionPane.showMessageDialog(view, "Errore: Non puoi registrare un team vuoto.");
+                return;
             }
+
+            if (team.getUtenti().size() > team.getDimMassimaTeam()) {
+                JOptionPane.showMessageDialog(view, "Registrazione fallita: Il numero di membri del team supera il limite massimo consentito.");
+            } else {
+                // Aggiunta del team solo dopo i controlli
+                selectedHackathon.aggiungiTeam(team);
+                selectedHackathon.registraTeam(team);
+                JOptionPane.showMessageDialog(view, "Team registrato correttamente!");
+            }
+        }
     }
+
+
 
 
     public void tornaAllaHome() {

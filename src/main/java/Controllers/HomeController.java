@@ -20,6 +20,11 @@ public class HomeController {
         new View.UserRegistrationView();
     }
 
+    public void apriLoginGiudice() {
+        homeView.setVisible(false);
+        new View.LoginGiudiceView();
+    }
+
 
 }
 

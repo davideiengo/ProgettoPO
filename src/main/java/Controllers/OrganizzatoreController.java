@@ -5,6 +5,7 @@ import Models.HackathonModel;
 import Models.OrganizzatoreModel;
 import View.HomeView;
 import View.OrganizzatoreView;
+import View.SelezioneGiudiceView;
 
 public class OrganizzatoreController {
     OrganizzatoreView organizzatoreView;
@@ -30,6 +31,11 @@ public class OrganizzatoreController {
         }
         return false;
     }
+
+    public void apriVistaSelezioneGiudice() {
+        new SelezioneGiudiceView();
+    }
+
 
 
 }
