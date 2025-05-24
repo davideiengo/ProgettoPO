@@ -27,9 +27,6 @@ public class HomeView extends JFrame{
         setSize(500, 500);
         setVisible(true);
 
-        comboHackathonClassifica = new JComboBox<>();
-        btnVisualizzaClassifica = new JButton("Visualizza Classifica");
-
 
         btnLoginOrganizzatore.addMouseListener(new MouseAdapter() {
             @Override

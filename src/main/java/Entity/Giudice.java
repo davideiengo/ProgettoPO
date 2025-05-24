@@ -14,16 +14,15 @@ public class Giudice extends Utente {
         }
     }
 
-    public void sceltaVoto(Team team, int voto, HackaThon hackaThon) {
-        if (hackaThon.getAppartiene() && hackaThon.getTeamsRegistrati().contains(team)) {
-            boolean successo = team.assegnaVoto(this.getNome(), voto);
-            if (successo) {
-                System.out.println("Voto assegnato con successo.");
-            }
-        } else {
-            System.out.println("VOTO NON ASSEGNATO. Controlla che il giudice appartenga all’hackathon e il team sia registrato.");
+    public void sceltaVoto(Team team, int voto, HackaThon hackathon) {
+        if (!hackathon.getTeams().contains(team)) return;
+        boolean successo = team.assegnaVoto(this.getNome(), voto);
+        if (!successo) {
+            System.out.println("Questo giudice ha già votato questo team.");
         }
     }
+
+
 
 }
 

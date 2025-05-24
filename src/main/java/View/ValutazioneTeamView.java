@@ -28,6 +28,13 @@ public class ValutazioneTeamView extends JFrame {
         add(new JLabel("Voto (1-10):"));
         add(spinnerVoto);
         add(btnAssegnaVoto);
+        setLayout(new GridLayout(6, 1));
+        add(btnPubblicaClassifica);
+        add(new JLabel("Seleziona Team:"));
+        add(comboTeam);
+        add(new JLabel("Voto (1-10):"));
+        add(spinnerVoto);
+        add(btnAssegnaVoto);
 
         setVisible(true);
     }
