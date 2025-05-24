@@ -58,6 +58,8 @@ public class LoginGiudiceView extends JFrame {
 
         loginGiudiceController.caricaHackathon();
 
+        btnAccedi.addActionListener(e -> loginGiudiceController.eseguiLogin());
+
     }
 
     public JButton getBtnTornaHome() {

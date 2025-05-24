@@ -15,6 +15,7 @@ public class HackaThon {
     private boolean statusRegistrazioni = false;
     private boolean appartiene = false;
     private ArrayList<Giudice> giudici = new ArrayList<>();
+    private boolean classificaPubblicata = false;
 
     public HackaThon(int dimensioneMaxTeam, Organizzatore organizzatore, String titoloIdentificativo) {
         if (titoloIdentificativo == null || titoloIdentificativo.trim().isEmpty()) {
@@ -33,7 +34,9 @@ public class HackaThon {
         this.organizzatore = organizzatore;
     }
 
-
+    public boolean isClassificaPubblicata() {
+        return classificaPubblicata;
+    }
 
     public void aggiungiGiudice(Giudice g, String password) {
         if (g != null && password != null && !password.isEmpty() && !giudici.contains(g)) {
@@ -125,30 +128,42 @@ public class HackaThon {
     }
 
     public void pubblicaClassifica() {
-        boolean tuttiVotati = true;
-        for (Team elem : this.teamsRegistrati) {
-            if (elem.getVotoFinale() == -1) {
-                tuttiVotati = false;
-                break;
+        ArrayList<Team> votati = new ArrayList<>();
+        ArrayList<Team> nonVotati = new ArrayList<>();
+
+        for (Team team : teamsRegistrati) {
+            if (team.getNumeroVoti() > 0) {
+                votati.add(team);
+            } else {
+                nonVotati.add(team);
             }
         }
 
-        if (tuttiVotati) {
-            Collections.sort(teamsRegistrati, new Comparator<Team>() {
-                @Override
-                public int compare(Team o1, Team o2) {
-                    return Integer.compare(o1.getVotoFinale(), o2.getVotoFinale());
-                }
-            });
-            System.out.println("Classifica Team:");
-            for (int i = 0; i < teamsRegistrati.size(); i++) {
-                System.out.println((i + 1) + ". " + teamsRegistrati.get(i));
-            }
-        } else {
-            System.out.println("Non tutti i team sono stati votati");
+        if (votati.isEmpty()) {
+            System.out.println("⚠ Nessun team è stato ancora votato.");
+            return;
         }
+
+        // Ordina in base alla media voti decrescente (dal più alto al più basso)
+        Collections.sort(votati, (t1, t2) -> Integer.compare(t2.getMediaVoti(), t1.getMediaVoti()));
+
+        System.out.println("🏆 Classifica dei Team Votati:");
+        int posizione = 1;
+        for (Team team : votati) {
+            System.out.println(posizione++ + ". " + team.getNomeTeam() + " - Media voto: " + team.getMediaVoti());
+        }
+
+        if (!nonVotati.isEmpty()) {
+            System.out.println("\n Team non ancora votati:");
+            for (Team team : nonVotati) {
+                System.out.println("- " + team.getNomeTeam());
+            }
+        }
+
+        this.classificaPubblicata = true;
 
     }
+
 
     public void setAppartiene() {
         this.appartiene = true;

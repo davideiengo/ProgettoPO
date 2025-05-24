@@ -1,71 +1,82 @@
 package Entity;
+
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Team {
-    private int votoFinale = -1; //Default -1, perchè ancora nessun giudice ha votato
-    private int dimMassimaTeam;
     private String nomeTeam;
+    private int dimMassimaTeam;
     private ArrayList<Utente> membri;
-    private HackaThon hackaThon;
+    private HackaThon hackathon;
 
 
-    public Team(HackaThon hackaThon, String nomeTeam) {
-        if (hackaThon.getListaTeam().stream().anyMatch(t -> t.getNomeTeam().equalsIgnoreCase(nomeTeam))) {
+    private int sommaVoti = 0;
+    private int numeroVoti = 0;
+    private HashSet<String> giudiciCheHannoVotato = new HashSet<>();
+
+    public Team(HackaThon hackathon, String nomeTeam) {
+        if (hackathon.getListaTeam().stream().anyMatch(t -> t.getNomeTeam().equalsIgnoreCase(nomeTeam))) {
             throw new IllegalArgumentException("Esiste già un team con questo nome in questa HackaThon!");
         }
-        this.dimMassimaTeam = hackaThon.getDimensioneMaxTeam();
-        membri = new ArrayList<>(this.dimMassimaTeam);
-        this.nomeTeam = nomeTeam;
-    }
 
-    public int getDimMassimaTeam() {
-        return dimMassimaTeam;
+        this.hackathon = hackathon;
+        this.nomeTeam = nomeTeam;
+        this.dimMassimaTeam = hackathon.getDimensioneMaxTeam();
+        this.membri = new ArrayList<>(dimMassimaTeam);
     }
 
     public String getNomeTeam() {
         return nomeTeam;
     }
 
+    public int getDimMassimaTeam() {
+        return dimMassimaTeam;
+    }
+
     public ArrayList<Utente> getUtenti() {
         return membri;
     }
 
+
     public boolean aggiungiUtente(Utente utente) {
         if (!(utente instanceof Giudice) && membri.size() < dimMassimaTeam && utente.getRegistrato()) {
-            this.membri.add(utente);
+            membri.add(utente);
             System.out.println("Il membro: " + utente.getNome() + " è stato aggiunto al team");
             return true;
         } else {
-            System.out.println("Il team potrebbe essere al completo, stai provando ad aggiungere un giudice al tuo team, l'utente che hai provato ad inserire non è registrato a questa hackathon");
+            System.out.println("Errore: il team è pieno, l'utente non è registrato, oppure è un giudice.");
             return false;
         }
     }
 
-
-    public void setNomeTeam(String nomeTeam) {
-        this.nomeTeam = nomeTeam;
-        System.out.println("Il nome del team è: " + nomeTeam);
-    }
-
-    public void setVotoFinale(int votoFinale) {
-        if (this.votoFinale == -1)
-            this.votoFinale = votoFinale + this.votoFinale + 1;
-        else{
-            this.votoFinale = votoFinale + this.votoFinale;
+    // Aggiungi un voto da un giudice (solo se non ha già votato)
+    public boolean assegnaVoto(String nomeGiudice, int voto) {
+        if (giudiciCheHannoVotato.contains(nomeGiudice)) {
+            System.out.println("Il giudice " + nomeGiudice + " ha già votato questo team.");
+            return false;
         }
+
+        sommaVoti += voto;
+        numeroVoti++;
+        giudiciCheHannoVotato.add(nomeGiudice);
+        return true;
     }
 
-    public int getVotoFinale() {
-        return votoFinale;
+    public int getMediaVoti() {
+        return numeroVoti == 0 ? -1 : sommaVoti / numeroVoti;
+    }
+
+    public int getNumeroVoti() {
+        return numeroVoti;
     }
 
     @Override
     public String toString() {
-        return nomeTeam + " - Voto Finale: " + votoFinale;
+        int media = getMediaVoti();
+        return nomeTeam + " - Voto medio: " + (media == -1 ? "N.D." : media);
     }
-
-
 }
+
 
 
 

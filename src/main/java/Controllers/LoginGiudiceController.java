@@ -4,7 +4,6 @@ import Models.GiudiceModel;
 import Models.HackathonModel;
 import View.HomeView;
 import View.LoginGiudiceView;
-import View.AreaGiudiceView;
 import Entity.Giudice;
 import Entity.HackaThon;
 
@@ -17,6 +16,37 @@ public class LoginGiudiceController {
         this.view = view;
         inizializza();
     }
+
+    public void eseguiLogin() {
+        String titoloHackathon = (String) view.getComboHackathon().getSelectedItem();
+        String nomeGiudice = (String) view.getComboGiudici().getSelectedItem();
+        String password = new String(view.getTxtPassword().getPassword());
+
+        if (titoloHackathon == null || nomeGiudice == null || password.isEmpty()) {
+            JOptionPane.showMessageDialog(view, "Compila tutti i campi.");
+            return;
+        }
+
+        HackaThon hackathon = HackathonModel.getInstance().getHackathonByTitolo(titoloHackathon);
+        if (hackathon != null) {
+            for (Giudice g : hackathon.getGiudici()) {
+                if (g.getNome().equalsIgnoreCase(nomeGiudice)) {
+                    if (GiudiceModel.getInstance().verificaPassword(g, password)) {
+                        JOptionPane.showMessageDialog(view, "Accesso effettuato con successo!");
+                        new ValutazioneTeamController(hackathon.getTitoloIdentificativo(), g);
+                        view.dispose(); // Chiudi la finestra di login
+                        return;
+                    } else {
+                        JOptionPane.showMessageDialog(view, "Password errata.");
+                        return;
+                    }
+                }
+            }
+        }
+
+        JOptionPane.showMessageDialog(view, "Errore: Giudice non trovato per questa hackathon.");
+    }
+
 
     private void inizializza() {
         caricaHackathon();
@@ -44,7 +74,7 @@ public class LoginGiudiceController {
                     if (g.getNome().equalsIgnoreCase(nomeGiudice)) {
                         if (GiudiceModel.getInstance().verificaPassword(g, password)) {
                             JOptionPane.showMessageDialog(view, "Accesso effettuato con successo!");
-                            new AreaGiudiceView(g.getNome(), hackathon.getTitoloIdentificativo());
+                            new ValutazioneTeamController(hackathon.getTitoloIdentificativo(), g);
                             view.dispose();  // Chiudi il login
                             return;
                         } else {
