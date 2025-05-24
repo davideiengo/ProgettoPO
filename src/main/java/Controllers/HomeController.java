@@ -24,7 +24,5 @@ public class HomeController {
         homeView.setVisible(false);
         new View.LoginGiudiceView();
     }
-
-
 }
 
