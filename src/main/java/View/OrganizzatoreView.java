@@ -34,12 +34,15 @@ public class OrganizzatoreView extends JFrame {
             int dimensione = Integer.parseInt(txtDimMaxTeam.getText());
 
             HackaThon h = controller.creaOrganizzatoreEHackathon(nome, titolo, dimensione);
-            HackathonModel.getInstance().aggiungiHackathon(h);
-
-            JOptionPane.showMessageDialog(this, "Hackathon '" + h.getTitoloIdentificativo() + "' creato!");
+            if (h == null) {
+                JOptionPane.showMessageDialog(this, "Errore: esiste già un hackathon con questo titolo!");
+            } else {
+                HackathonModel.getInstance().aggiungiHackathon(h);
+                JOptionPane.showMessageDialog(this, "Hackathon '" + h.getTitoloIdentificativo() + "' creato!");
+            }
         });
 
-        btnApriRegistrazioni.addActionListener(e -> { // ✅ nuovo listener
+        btnApriRegistrazioni.addActionListener(e -> {
             String nome = txtNomeOrganizzatore.getText();
             String titolo = txtTitoloHackathon.getText();
             boolean successo = controller.apriRegistrazioni(titolo, nome);

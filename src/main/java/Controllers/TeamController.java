@@ -35,10 +35,19 @@ public class TeamController {
         selectedHackathon = HackathonModel.getInstance().getHackathonByTitolo(titolo);
 
         if (selectedHackathon != null) {
-            team = model.creaTeam(view.getTxtNomeTeam().getText(), selectedHackathon);
+            String nomeTeam = view.getTxtNomeTeam().getText();
+
+            // Controllo duplicati
+            if (selectedHackathon.getTeams().stream().anyMatch(t -> t.getNomeTeam().equalsIgnoreCase(nomeTeam))) {
+                JOptionPane.showMessageDialog(view, "Errore: Esiste già un team con questo nome nell’hackathon selezionato.");
+                return; // Blocca la creazione
+            }
+
+            team = model.creaTeam(nomeTeam, selectedHackathon);
             new TeamMembersSelectionView(team, selectedHackathon);
         }
     }
+
 
     public void creaTeam() {
             if (team != null) {

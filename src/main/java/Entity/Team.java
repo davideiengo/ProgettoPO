@@ -6,11 +6,17 @@ public class Team {
     private int dimMassimaTeam;
     private String nomeTeam;
     private ArrayList<Utente> membri;
+    private HackaThon hackaThon;
+
 
     public Team(HackaThon hackaThon, String nomeTeam) {
+        if (hackaThon.getListaTeam().stream().anyMatch(t -> t.getNomeTeam().equalsIgnoreCase(nomeTeam))) {
+            throw new IllegalArgumentException("Esiste già un team con questo nome in questa HackaThon!");
+        }
         this.dimMassimaTeam = hackaThon.getDimensioneMaxTeam();
         membri = new ArrayList<>(this.dimMassimaTeam);
         this.nomeTeam = nomeTeam;
+        hackaThon.aggiungiTeam(this);
     }
 
     public int getDimMassimaTeam() {
@@ -58,6 +64,9 @@ public class Team {
     public String toString() {
         return nomeTeam + " - Voto Finale: " + votoFinale;
     }
+
+
 }
+
 
 

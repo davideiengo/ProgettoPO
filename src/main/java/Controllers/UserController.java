@@ -19,16 +19,26 @@ public class UserController {
     }
 
     public void registraUtente(String nomeUtente, String titoloHackathon) {
-        HackaThon h = model.getHackathonByTitolo(titoloHackathon);
-        if (h != null) {
-            Utente u = new Utente(nomeUtente);
-            u.effettuaRegistrazione(h);
-            JOptionPane.showMessageDialog(view, "Utente registrato all’hackathon: " + h.getTitoloIdentificativo());
+        HackaThon hackathon = HackathonModel.getInstance().getHackathonByTitolo(titoloHackathon);
+        if (hackathon == null) {
+            JOptionPane.showMessageDialog(view, "Hackathon non trovato.");
+            return;
+        }
+
+        Utente utente = new Utente(nomeUtente);
+        if (!hackathon.getAperturaIscrizioni()) {
+            JOptionPane.showMessageDialog(view, "Le registrazioni non sono aperte.");
+            return;
+        }
+
+        boolean successo = hackathon.registraUtente(utente);
+        if (successo) {
+            utente.setRegistrato(true);
+            JOptionPane.showMessageDialog(view, "Registrazione avvenuta con successo!");
         } else {
-            JOptionPane.showMessageDialog(view, "Hackathon non trovato");
+            JOptionPane.showMessageDialog(view, "Errore: nome utente già registrato.");
         }
     }
-
 
     public void caricaHackathonDisponibili() {
         ArrayList<HackaThon> lista = model.getTutti();

@@ -38,10 +38,11 @@ public class UserRegistrationView extends JFrame {
         controller = new UserController(this);
         controller.caricaHackathonDisponibili();
 
-        btnRegistra.addActionListener(e -> controller.registraUtente(
-                txtNomeUtente.getText(),
-                (String) comboHackathon.getSelectedItem()
-        ));
+        btnRegistra.addActionListener(e -> {
+                String nomeUtente = txtNomeUtente.getText();
+        String titoloHackathon = (String) comboHackathon.getSelectedItem();
+        controller.registraUtente(nomeUtente, titoloHackathon);
+    });
         btnTornaHome.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

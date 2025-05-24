@@ -31,6 +31,16 @@ public class HackathonModel {
         return null;
     }
 
+    public boolean esisteHackathonConTitolo(String titolo) {
+        for (HackaThon h : hackathonList) {
+            if (h.getTitoloIdentificativo().equalsIgnoreCase(titolo)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     public ArrayList<HackaThon> getTutti() {
         return hackathonList;
     }

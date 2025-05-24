@@ -17,6 +17,11 @@ public class HackaThon {
 
 
     public HackaThon(int dimensioneMaxTeam, Organizzatore organizzatore, String titoloIdentificativo) {
+        if (HackathonRegistry.esisteHackathon(titoloIdentificativo)) {
+            throw new IllegalArgumentException("Esiste già un hackathon con questo nome!");
+        }
+
+        HackathonRegistry.registraHackathon(titoloIdentificativo);
         this.dimensioneMaxTeam = dimensioneMaxTeam;
         this.organizzatore = organizzatore;
         this.titoloIdentificativo = titoloIdentificativo;
@@ -54,21 +59,42 @@ public class HackaThon {
                 break;
             }
         }
+
+        if (TeamRegistry.esisteTeam(team.getNomeTeam())) {
+            System.out.println("Errore: esiste già un team con questo nome.");
+            return;
+        }
         if (team.getDimMassimaTeam() <= this.dimensioneMaxTeam && !team.getUtenti().isEmpty() && tuttiRegistrati) {
             teamsRegistrati.add(team);
+            TeamRegistry.registraTeam(team.getNomeTeam());
         } else {
             System.out.println("Il team non è stato registrato: Questo può accadere perchè un utente non è registrato alla stessa hackathon dove si vuole registrare il team, il team è pieno oppure si sta cercando di registrare un team vuoto");
         }
     }
 
 
-    public void registraUtente(Utente utente){
+    public boolean registraUtente(Utente utente) {
+        // Controlla se esiste già un utente con lo stesso nome
+        if (esisteUtenteConNome(utente.getNome())) {
+            System.out.println("Errore: nome utente già registrato.");
+            return false; // registrazione fallita
+        }
         utentiRegistrati.add(utente);
+        return true; // registrazione avvenuta con successo
     }
 
 
     public ArrayList<Utente> getUtentiRegistrati() {
         return utentiRegistrati;
+    }
+
+    public boolean esisteUtenteConNome(String nomeUtente) {
+        for (Utente u : utentiRegistrati) {
+            if (u.getNome().equalsIgnoreCase(nomeUtente)) {
+                return true; // trovato un utente con lo stesso nome
+            }
+        }
+        return false; // nessun utente con quel nome
     }
 
     public void pubblicaClassifica() {
@@ -111,5 +137,36 @@ public class HackaThon {
     public Organizzatore getOrganizzatore() {
         return this.organizzatore;
     }
+
+    private ArrayList<Team> listaTeam = new ArrayList<>();
+
+    public void aggiungiTeam(Team team) {
+        listaTeam.add(team);
+    }
+
+    public ArrayList<Team> getListaTeam() {
+        return listaTeam;
+    }
+
+    public ArrayList<Utente> getUtentiInTeam() {
+        ArrayList<Utente> utentiInTeam = new ArrayList<>();
+        for (Team team : teamsRegistrati) {
+            utentiInTeam.addAll(team.getUtenti());
+        }
+        return utentiInTeam;
+    }
+
+    public ArrayList<Team> getTeams() {
+        return teamsRegistrati;
+    }
+
+    public ArrayList<String> getNomiTeam() {
+        ArrayList<String> nomi = new ArrayList<>();
+        for (Team team : teamsRegistrati) {
+            nomi.add(team.getNomeTeam());
+        }
+        return nomi;
+    }
+
 
 }

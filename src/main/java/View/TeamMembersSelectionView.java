@@ -20,6 +20,17 @@ public class TeamMembersSelectionView extends JFrame {
         panel = new JPanel(new BorderLayout());
         modelList = new DefaultListModel<>();
 
+        // Ottieni lista di utenti già in un team
+        java.util.List<Utente> utentiGiaInTeam = hackathon.getUtentiInTeam();
+
+        // Popola solo utenti che NON sono già in un altro team
+        for (Utente u : hackathon.getUtentiRegistrati()) {
+            if (!utentiGiaInTeam.contains(u)) {
+                modelList.addElement(u.getNome());
+            }
+        }
+
+
         for (Utente u : hackathon.getUtentiRegistrati()) {
             modelList.addElement(u.getNome());
         }
@@ -35,6 +46,7 @@ public class TeamMembersSelectionView extends JFrame {
                     boolean successo = team.aggiungiUtente(u);
                     if (successo) {
                         JOptionPane.showMessageDialog(this, "Utente aggiunto!");
+                        modelList.removeElement(selected); // Rimuove dalla lista una volta aggiunto
                     } else {
                         JOptionPane.showMessageDialog(this, "Errore: impossibile aggiungere l'utente.\nMotivi possibili:\n- Team pieno\n- Utente non registrato\n- L'utente è un giudice\n- L'utente è già registrato in un altro team");
                     }
