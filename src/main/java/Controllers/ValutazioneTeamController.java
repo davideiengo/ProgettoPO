@@ -57,5 +57,4 @@ public class ValutazioneTeamController {
 
         JOptionPane.showMessageDialog(view, "Team non trovato.");
     }
-
 }

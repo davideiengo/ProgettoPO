@@ -11,9 +11,5 @@ public class TeamModel {
     public Team creaTeam(String nomeTeam, HackaThon hackathon) {
         return new Team(hackathon, nomeTeam);
     }
-
-    public ArrayList<Utente> getUtentiRegistrati(HackaThon hackathon) {
-        return hackathon.getUtentiRegistrati();
-    }
 }
 

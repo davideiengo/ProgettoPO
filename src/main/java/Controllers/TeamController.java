@@ -51,8 +51,6 @@ public class TeamController {
         }
     }
 
-
-
     public void creaTeam() {
         if (team != null) {
             if (team.getUtenti().isEmpty()) {
@@ -70,9 +68,6 @@ public class TeamController {
             }
         }
     }
-
-
-
 
     public void tornaAllaHome() {
         view.setVisible(false);

@@ -21,20 +21,6 @@ public class Utente {
         this.registrato = registrato;
     }
 
-    public void effettuaRegistrazione(HackaThon hackaThon) {
-        if (hackaThon.getAperturaIscrizioni()) {
-            boolean successo = hackaThon.registraUtente(this);
-            if (successo) {
-                this.registrato = true;
-            } else {
-                System.out.println("Registrazione fallita: nome utente già esistente.");
-            }
-        } else {
-            System.out.println("Le registrazioni non sono aperte, attendi che l'organizzatore le apra");
-        }
-    }
-
-
     public boolean getRegistrato() {
         return this.registrato;
     }

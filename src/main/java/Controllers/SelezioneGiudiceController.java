@@ -66,9 +66,5 @@ public class SelezioneGiudiceController {
         JOptionPane.showMessageDialog(view, "Giudice aggiunto con successo all'hackathon!");
         view.dispose();
     }
-
-
-
-
 }
 

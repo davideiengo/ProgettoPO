@@ -40,7 +40,6 @@ public class HackathonModel {
         return false;
     }
 
-
     public ArrayList<HackaThon> getTutti() {
         return hackathonList;
     }

@@ -16,6 +16,7 @@ public class HackaThon {
     private boolean appartiene = false;
     private ArrayList<Giudice> giudici = new ArrayList<>();
     private boolean classificaPubblicata = false;
+    private ArrayList<Team> listaTeam = new ArrayList<>();
 
     public HackaThon(int dimensioneMaxTeam, Organizzatore organizzatore, String titoloIdentificativo) {
         if (titoloIdentificativo == null || titoloIdentificativo.trim().isEmpty()) {
@@ -50,8 +51,6 @@ public class HackaThon {
         return giudici;
     }
 
-
-
     public void permettiIscrizioni(Organizzatore organizzatore) {
         if (this.organizzatore == organizzatore) {
             this.statusRegistrazioni = true;
@@ -66,10 +65,6 @@ public class HackaThon {
 
     public boolean getAperturaIscrizioni() {
         return this.statusRegistrazioni;
-    }
-
-    public void setNumeroMassimoIscritti(int numeroMassimoIscritti) {
-        this.numeroMassimoIscritti = numeroMassimoIscritti;
     }
 
     public int getDimensioneMaxTeam() {
@@ -102,7 +97,6 @@ public class HackaThon {
         }
     }
 
-
     public boolean registraUtente(Utente utente) {
         // Controlla se esiste già un utente con lo stesso nome
         if (esisteUtenteConNome(utente.getNome())) {
@@ -112,7 +106,6 @@ public class HackaThon {
         utentiRegistrati.add(utente);
         return true; // registrazione avvenuta con successo
     }
-
 
     public ArrayList<Utente> getUtentiRegistrati() {
         return utentiRegistrati;
@@ -162,24 +155,17 @@ public class HackaThon {
         this.classificaPubblicata = true;
     }
 
-
-
     public void setAppartiene() {
         this.appartiene = true;
-    }
-
-    public boolean getAppartiene() {
-        return this.appartiene;
     }
 
     public ArrayList<Team> getTeamsRegistrati(){
         return this.teamsRegistrati;
     }
+
     public Organizzatore getOrganizzatore() {
         return this.organizzatore;
     }
-
-    private ArrayList<Team> listaTeam = new ArrayList<>();
 
     public void aggiungiTeam(Team team) {
         listaTeam.add(team);
@@ -200,14 +186,5 @@ public class HackaThon {
     public ArrayList<Team> getTeams() {
         return teamsRegistrati;
     }
-
-    public ArrayList<String> getNomiTeam() {
-        ArrayList<String> nomi = new ArrayList<>();
-        for (Team team : teamsRegistrati) {
-            nomi.add(team.getNomeTeam());
-        }
-        return nomi;
-    }
-
 
 }
