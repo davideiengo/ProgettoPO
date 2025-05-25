@@ -17,40 +17,74 @@ public class UserRegistrationView extends JFrame {
     private UserController controller;
 
     public UserRegistrationView() {
-        panelMain = new JPanel(new GridLayout(4, 1, 10, 10));
-        txtNomeUtente = new JTextField();
-        btnRegistra = new JButton("Registrati");
-        comboHackathon = new JComboBox<>();
+        setTitle("Registrazione Utente");
+        setSize(450, 300);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-        panelMain.add(new JLabel("Nome Utente:"));
-        panelMain.add(txtNomeUtente);
-        panelMain.add(new JLabel("Seleziona Hackathon:"));
-        panelMain.add(comboHackathon);
-        panelMain.add(btnRegistra);
-        panelMain.add(btnTornaHome);
+        panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.Y_AXIS));
+        panelMain.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+        panelMain.setBackground(new Color(245, 245, 245));
+
+        // Titolo
+        JLabel titolo = new JLabel("Registrazione Nuovo Utente");
+        titolo.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        titolo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panelMain.add(titolo);
+        panelMain.add(Box.createVerticalStrut(20));
+
+        // Campi
+        styleLabeledField("Nome Utente:", txtNomeUtente);
+        styleLabeledField("Seleziona Hackathon:", comboHackathon);
+
+        // Bottoni
+        styleButton(btnRegistra);
+        styleButton(btnTornaHome);
 
         setContentPane(panelMain);
-        setTitle("Registrazione Utente");
-        setSize(400, 200);
         setVisible(true);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         controller = new UserController(this);
         controller.caricaHackathonDisponibili();
 
         btnRegistra.addActionListener(e -> {
-                String nomeUtente = txtNomeUtente.getText();
-        String titoloHackathon = (String) comboHackathon.getSelectedItem();
-        controller.registraUtente(nomeUtente, titoloHackathon);
-    });
+            String nomeUtente = txtNomeUtente.getText();
+            String titoloHackathon = (String) comboHackathon.getSelectedItem();
+            controller.registraUtente(nomeUtente, titoloHackathon);
+        });
+
         btnTornaHome.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
                 controller.ritornaHome();
             }
         });
     }
+
+    // Campo con etichetta
+    private void styleLabeledField(String label, JComponent field) {
+        JLabel lbl = new JLabel(label);
+        lbl.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lbl.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        panelMain.add(lbl);
+        field.setMaximumSize(new Dimension(300, 30));
+        field.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panelMain.add(field);
+        panelMain.add(Box.createVerticalStrut(10));
+    }
+
+    // Bottone stilizzato
+    private void styleButton(JButton btn) {
+        btn.setMaximumSize(new Dimension(200, 35));
+        btn.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        btn.setBackground(new Color(200, 220, 255));
+        btn.setFocusPainted(false);
+        btn.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        btn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panelMain.add(Box.createVerticalStrut(10));
+        panelMain.add(btn);
+    }
+
 
     public void setHackathonList(ArrayList<String> titoli) {
         comboHackathon.removeAllItems();

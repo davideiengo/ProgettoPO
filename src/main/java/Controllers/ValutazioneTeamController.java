@@ -29,6 +29,12 @@ public class ValutazioneTeamController {
             JOptionPane.showMessageDialog(view, "Classifica pubblicata con successo!");
         });
 
+        view.getBtnTornaHome().addActionListener(e -> {
+            view.dispose(); // chiude la finestra di valutazione
+            new HomeView(); // apre la HomeView
+        });
+
+
     }
 
     private void popolaTeam() {

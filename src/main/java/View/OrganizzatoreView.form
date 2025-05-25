@@ -15,7 +15,7 @@
           </grid>
         </constraints>
         <properties>
-          <text value="&quot;Inserisci Titolo Hackhathon&quot;"/>
+          <text value=""/>
         </properties>
       </component>
       <component id="8d2be" class="javax.swing.JTextField" binding="txtDimMaxTeam">
@@ -25,7 +25,7 @@
           </grid>
         </constraints>
         <properties>
-          <text value="&quot;Inserisci dimensione massima team&quot;"/>
+          <text value=""/>
         </properties>
       </component>
       <component id="cb8ce" class="javax.swing.JTextField" binding="txtNomeOrganizzatore">
@@ -35,7 +35,7 @@
           </grid>
         </constraints>
         <properties>
-          <text value="&quot;Inserisci il Nome dell'organizzatore&quot;"/>
+          <text value=""/>
         </properties>
       </component>
       <component id="4b38b" class="javax.swing.JButton" binding="btnCreaHackathon">

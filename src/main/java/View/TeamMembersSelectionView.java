@@ -1,5 +1,6 @@
 package View;
 
+import Entity.Giudice;
 import Entity.Team;
 import Entity.Utente;
 import Entity.HackaThon;
@@ -25,10 +26,11 @@ public class TeamMembersSelectionView extends JFrame {
 
         // Popola solo utenti che NON sono già in un altro team
         for (Utente u : hackathon.getUtentiRegistrati()) {
-            if (!utentiGiaInTeam.contains(u)) {
+            if (!utentiGiaInTeam.contains(u) && !(u instanceof Giudice)) {
                 modelList.addElement(u.getNome());
             }
         }
+
 
         listaUtenti = new JList<>(modelList);
         panel.add(new JScrollPane(listaUtenti), BorderLayout.CENTER);
