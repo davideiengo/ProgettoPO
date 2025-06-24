@@ -1,4 +1,7 @@
 package Entity;
+
+import dao.HackathonDAO;
+import PostgresDAO.PostgresHackathonDAO;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;

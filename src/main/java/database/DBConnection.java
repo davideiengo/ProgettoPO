@@ -1,4 +1,4 @@
-package DAO;
+package database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,3 +12,4 @@ public class DBConnection {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 }
+

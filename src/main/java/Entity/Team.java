@@ -69,4 +69,9 @@ public class Team {
         int media = getMediaVoti();
         return nomeTeam + " - Voto medio: " + (media == -1 ? "N.D." : media);
     }
+
+    public HackaThon getHackathon() {
+        return this.hackathon;
+    }
+
 }
