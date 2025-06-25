@@ -13,10 +13,9 @@ public class TeamModel {
     private TeamDAO teamDAO = new PostgresTeamDAO();
 
     public Team creaTeam(String nomeTeam, HackaThon hackathon) {
-        Team t = new Team(hackathon, nomeTeam);
-        teamDAO.salvaTeam(t); // salva nel DB
-        return t;
+        return new Team(hackathon, nomeTeam);
     }
+
 
 }
 

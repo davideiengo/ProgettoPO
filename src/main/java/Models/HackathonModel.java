@@ -34,6 +34,11 @@ public class HackathonModel {
         return hackathonDAO.trovaPerTitolo(titolo);
     }
 
+    public void aggiornaRegistrazioni(HackaThon h) {
+        hackathonDAO.aggiorna(h);
+    }
+
+
 
     public boolean esisteHackathonConTitolo(String titolo) {
         for (HackaThon h : hackathonList) {

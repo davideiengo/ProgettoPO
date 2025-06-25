@@ -30,10 +30,15 @@ public class OrganizzatoreController {
         HackaThon h = HackathonModel.getInstance().getHackathonByTitolo(titoloHackathon);
         if (h != null && h.getOrganizzatore().getOrganizzatore().equals(nomeOrganizzatore)) {
             h.permettiIscrizioni(h.getOrganizzatore());
+
+            // 🔧 Salva il nuovo stato nel database
+            HackathonModel.getInstance().aggiornaRegistrazioni(h);
+
             return true;
         }
         return false;
     }
+
 
     public void apriVistaSelezioneGiudice() {
         new SelezioneGiudiceView();

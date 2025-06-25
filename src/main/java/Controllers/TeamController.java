@@ -1,7 +1,9 @@
 package Controllers;
 
+import Entity.TeamRegistry;
 import Models.HackathonModel;
 import Models.TeamModel;
+import PostgresDAO.PostgresTeamDAO;
 import View.HomeView;
 import View.TeamCreationView;
 
@@ -40,34 +42,48 @@ public class TeamController {
             // Controllo duplicati
             if (selectedHackathon.getTeams().stream().anyMatch(t -> t.getNomeTeam().equalsIgnoreCase(nomeTeam))) {
                 JOptionPane.showMessageDialog(view, "Errore: Esiste già un team con questo nome nell’hackathon selezionato.");
-                return; // Blocca la creazione
+                return;
             }
 
-            // SOLO CREA il team, NON LO REGISTRA né lo aggiunge
-            team = model.creaTeam(nomeTeam, selectedHackathon);
+            // ✅ Solo crea il team, NON lo salva ancora
+            team = new Team(selectedHackathon, nomeTeam);
 
             // Apre la finestra per selezionare membri
             new TeamMembersSelectionView(team, selectedHackathon);
         }
     }
 
+
     public void creaTeam() {
         if (team != null) {
+            // Verifica che il team abbia almeno un membro
             if (team.getUtenti().isEmpty()) {
                 JOptionPane.showMessageDialog(view, "Errore: Non puoi registrare un team vuoto.");
                 return;
             }
 
+            // Verifica che non superi la dimensione massima
             if (team.getUtenti().size() > team.getDimMassimaTeam()) {
                 JOptionPane.showMessageDialog(view, "Registrazione fallita: Il numero di membri del team supera il limite massimo consentito.");
             } else {
-                // Aggiunta del team solo dopo i controlli
+                // Controllo finale per evitare duplicati
+                if (TeamRegistry.esisteTeam(team.getNomeTeam())) {
+                    JOptionPane.showMessageDialog(view, "Errore: Esiste già un team con questo nome.");
+                    return;
+                }
+
+                // Aggiunge il team all'hackathon
                 selectedHackathon.aggiungiTeam(team);
                 selectedHackathon.registraTeam(team);
+
+                // ✅ SALVA nel database SOLO ORA
+                new PostgresTeamDAO().salvaTeam(team);
+
                 JOptionPane.showMessageDialog(view, "Team registrato correttamente!");
             }
         }
     }
+
 
     public void tornaAllaHome() {
         view.setVisible(false);

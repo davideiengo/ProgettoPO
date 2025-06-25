@@ -21,21 +21,35 @@ public class HackaThon {
 
 
     public HackaThon(int dimensioneMaxTeam, Organizzatore organizzatore, String titoloIdentificativo) {
+        this(dimensioneMaxTeam, organizzatore, titoloIdentificativo, true);
+    }
+
+    private HackaThon(int dimensioneMaxTeam, Organizzatore organizzatore, String titoloIdentificativo, boolean controllaRegistro) {
         if (titoloIdentificativo == null || titoloIdentificativo.trim().isEmpty()) {
             throw new IllegalArgumentException("Il titolo dell'hackathon non può essere vuoto o nullo.");
         }
 
         this.titoloIdentificativo = titoloIdentificativo;
 
-        if (HackathonRegistry.esisteHackathon(this.titoloIdentificativo)) {
+        if (controllaRegistro && HackathonRegistry.esisteHackathon(this.titoloIdentificativo)) {
             throw new IllegalArgumentException("Esiste già un hackathon con questo nome!");
         }
 
-        HackathonRegistry.registraHackathon(this.titoloIdentificativo);
+        if (controllaRegistro) {
+            HackathonRegistry.registraHackathon(this.titoloIdentificativo);
+        }
 
         this.dimensioneMaxTeam = dimensioneMaxTeam;
         this.organizzatore = organizzatore;
     }
+
+
+    public static HackaThon ricostruisciDaDB(int dimensioneMaxTeam, Organizzatore organizzatore, String titolo) {
+        HackaThon h = new HackaThon(dimensioneMaxTeam, organizzatore, titolo, false);
+        HackathonRegistry.aggiungiHackathon(h);
+        return h;
+    }
+
 
     public boolean isClassificaPubblicata() {
         return classificaPubblicata;

@@ -14,11 +14,12 @@ public class PostgresHackathonDAO implements HackathonDAO {
     @Override
     public void salvaHackathon(HackaThon hackathon) {
         try (Connection conn = DBConnection.getConnection()) {
-            String sql = "INSERT INTO hackathon (titolo, dimensione_max_team, nome_organizzatore) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO hackathon (titolo, dimensione_max_team, nome_organizzatore, registrazioni_aperte) VALUES (?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, hackathon.getTitoloIdentificativo());
             stmt.setInt(2, hackathon.getDimensioneMaxTeam());
             stmt.setString(3, hackathon.getOrganizzatore().getOrganizzatore());
+            stmt.setBoolean(4, hackathon.getAperturaIscrizioni());
             stmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -37,9 +38,16 @@ public class PostgresHackathonDAO implements HackathonDAO {
             if (rs.next()) {
                 int dim = rs.getInt("dimensione_max_team");
                 String nomeOrg = rs.getString("nome_organizzatore");
+                boolean registrazioniAperte = rs.getBoolean("registrazioni_aperte");
+
                 Organizzatore org = new Organizzatore(nomeOrg);
-                hackathon = new HackaThon(dim, org, titolo);
+                hackathon = HackaThon.ricostruisciDaDB(dim, org, titolo);
+
+                if (registrazioniAperte) {
+                    hackathon.permettiIscrizioni(org);
+                }
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -58,10 +66,18 @@ public class PostgresHackathonDAO implements HackathonDAO {
                 String titolo = rs.getString("titolo");
                 int dim = rs.getInt("dimensione_max_team");
                 String nomeOrg = rs.getString("nome_organizzatore");
+                boolean registrazioniAperte = rs.getBoolean("registrazioni_aperte");
+
                 Organizzatore org = new Organizzatore(nomeOrg);
-                HackaThon h = new HackaThon(dim, org, titolo);
+                HackaThon h = HackaThon.ricostruisciDaDB(dim, org, titolo);
+
+                if (registrazioniAperte) {
+                    h.permettiIscrizioni(org);
+                }
+
                 lista.add(h);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -71,16 +87,18 @@ public class PostgresHackathonDAO implements HackathonDAO {
     @Override
     public void aggiorna(HackaThon hackathon) {
         try (Connection conn = DBConnection.getConnection()) {
-            String sql = "UPDATE hackathon SET dimensione_max_team = ?, nome_organizzatore = ? WHERE titolo = ?";
+            String sql = "UPDATE hackathon SET dimensione_max_team = ?, nome_organizzatore = ?, registrazioni_aperte = ? WHERE titolo = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, hackathon.getDimensioneMaxTeam());
             stmt.setString(2, hackathon.getOrganizzatore().getOrganizzatore());
-            stmt.setString(3, hackathon.getTitoloIdentificativo());
+            stmt.setBoolean(3, hackathon.getAperturaIscrizioni()); // salva il campo giusto!
+            stmt.setString(4, hackathon.getTitoloIdentificativo());
             stmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     @Override
     public void elimina(String titolo) {
@@ -93,5 +111,18 @@ public class PostgresHackathonDAO implements HackathonDAO {
             e.printStackTrace();
         }
     }
+
+    public void aggiornaRegistrazioni(HackaThon hackathon) {
+        try (Connection conn = DBConnection.getConnection()) {
+            String sql = "UPDATE hackathon SET registrazioni_aperte = ? WHERE titolo = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setBoolean(1, hackathon.getAperturaIscrizioni());
+            stmt.setString(2, hackathon.getTitoloIdentificativo());
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 
