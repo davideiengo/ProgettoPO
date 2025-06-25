@@ -9,7 +9,14 @@ public class DBConnection {
     private static final String PASSWORD = "Alessandro2";
 
     public static Connection getConnection() throws Exception {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+        try {
+            Class.forName("org.postgresql.Driver");
+            return DriverManager.getConnection(URL, USER, PASSWORD);
+        } catch (Exception e) {
+            System.err.println("Errore di connessione al database!");
+            throw e;
+        }
     }
 }
+
 
