@@ -1,7 +1,5 @@
 package Entity;
 
-import dao.HackathonDAO;
-import PostgresDAO.PostgresHackathonDAO;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -20,6 +18,7 @@ public class HackaThon {
     private ArrayList<Giudice> giudici = new ArrayList<>();
     private boolean classificaPubblicata = false;
     private ArrayList<Team> listaTeam = new ArrayList<>();
+
 
     public HackaThon(int dimensioneMaxTeam, Organizzatore organizzatore, String titoloIdentificativo) {
         if (titoloIdentificativo == null || titoloIdentificativo.trim().isEmpty()) {
