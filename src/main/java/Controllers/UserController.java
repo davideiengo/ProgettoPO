@@ -3,6 +3,8 @@ package Controllers;
 import Entity.HackaThon;
 import Entity.Utente;
 import Models.HackathonModel;
+import Models.UtenteModel;
+import PostgresDAO.PostgresUtenteDAO;
 import View.HomeView;
 import View.UserRegistrationView;
 import View.UserRegistrationView;
@@ -34,11 +36,18 @@ public class UserController {
         boolean successo = hackathon.registraUtente(utente);
         if (successo) {
             utente.setRegistrato(true);
+            UtenteModel.getInstance().salva(utente);
+
+            // 👉 AGGIUNGI QUESTA PARTE: salva nella nuova tabella
+            PostgresUtenteDAO dao = new PostgresUtenteDAO();
+            dao.salvaAssociazioneUtenteHackathon(utente.getNome(), hackathon.getTitoloIdentificativo());
+
             JOptionPane.showMessageDialog(view, "Registrazione avvenuta con successo!");
         } else {
             JOptionPane.showMessageDialog(view, "Errore: nome utente già registrato.");
         }
     }
+
 
     public void caricaHackathonDisponibili() {
         ArrayList<HackaThon> lista = model.getTutti();

@@ -9,5 +9,9 @@ public interface UtenteDAO {
     List<Utente> trovaTutti();
     void aggiorna(Utente utente);
     void elimina(String nome);
+
+    // 👉 AGGIUNGI QUESTO
+    List<Utente> trovaUtentiPerHackathon(String titoloHackathon);
 }
+
 

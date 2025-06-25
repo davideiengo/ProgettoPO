@@ -4,6 +4,8 @@ import Entity.Giudice;
 import Entity.Team;
 import Entity.Utente;
 import Entity.HackaThon;
+import Models.UtenteModel;
+import java.util.List;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,11 +24,16 @@ public class TeamMembersSelectionView extends JFrame {
         modelList = new DefaultListModel<>();
 
         // Ottieni lista di utenti già in un team
-        java.util.List<Utente> utentiGiaInTeam = hackathon.getUtentiInTeam();
+        List<Utente> utentiGiaInTeam = hackathon.getUtentiInTeam();
 
-        // Popola solo utenti che NON sono già in un altro team
-        for (Utente u : hackathon.getUtentiRegistrati()) {
-            if (!utentiGiaInTeam.contains(u) && !(u instanceof Giudice)) {
+// Carica dal DB solo gli utenti registrati a questa hackathon
+        List<Utente> tuttiUtenti = UtenteModel.getInstance().trovaPerHackathon(hackathon.getTitoloIdentificativo());
+
+// Popola solo utenti non ancora assegnati ad altri team, non giudici, e registrati
+        for (Utente u : tuttiUtenti) {
+            if (!utentiGiaInTeam.stream().anyMatch(t -> t.getNome().equals(u.getNome()))
+                    && !(u instanceof Giudice)
+                    && u.getRegistrato()) {
                 modelList.addElement(u.getNome());
             }
         }
@@ -38,16 +45,17 @@ public class TeamMembersSelectionView extends JFrame {
         btnAggiungi = new JButton("Aggiungi al Team");
         btnAggiungi.addActionListener(e -> {
             String selected = listaUtenti.getSelectedValue();
-            for (Utente u : hackathon.getUtentiRegistrati()) {
-                if (u.getNome().equals(selected)) {
-                    boolean successo = team.aggiungiUtente(u);
-                    if (successo) {
-                        JOptionPane.showMessageDialog(this, "Utente aggiunto!");
-                        modelList.removeElement(selected); // Rimuove dalla lista una volta aggiunto
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Errore: impossibile aggiungere l'utente.\nMotivi possibili:\n- Team pieno\n- Utente non registrato\n- L'utente è un giudice\n- L'utente è già registrato in un altro team");
-                    }
-                    break;
+            if (selected == null) return;
+
+            // Carica l’utente selezionato dal DB
+            Utente u = Models.UtenteModel.getInstance().trova(selected);
+            if (u != null) {
+                boolean successo = team.aggiungiUtente(u);
+                if (successo) {
+                    JOptionPane.showMessageDialog(this, "Utente aggiunto!");
+                    modelList.removeElement(selected);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Errore: impossibile aggiungere l'utente.\nMotivi possibili:\n- Team pieno\n- Utente non registrato\n- L'utente è un giudice\n- L'utente è già registrato in un altro team");
                 }
             }
         });

@@ -30,5 +30,10 @@ public class UtenteModel {
     public List<Utente> tutti() {
         return utenteDAO.trovaTutti();
     }
+
+    public List<Utente> trovaPerHackathon(String titoloHackathon) {
+        return utenteDAO.trovaUtentiPerHackathon(titoloHackathon);
+    }
+
 }
 
