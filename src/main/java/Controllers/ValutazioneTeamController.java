@@ -16,6 +16,8 @@ public class ValutazioneTeamController {
     private ValutazioneTeamView view;
     private HackaThon hackathon;
     private Giudice giudice;
+    private List<Team> teamList; // <--- salvi i team per votazione
+
 
     public ValutazioneTeamController(String titoloHackathon, Giudice giudice) {
         this.giudice = giudice;
@@ -28,9 +30,25 @@ public class ValutazioneTeamController {
         view.setVisible(true);
 
         view.getBtnPubblicaClassifica().addActionListener(e -> {
-            hackathon.pubblicaClassifica();
-            JOptionPane.showMessageDialog(view, "Classifica pubblicata con successo!");
+            List<Team> votati = teamList.stream()
+                    .filter(Team::isVotato)
+                    .sorted((a, b) -> Integer.compare(b.getMediaVoti(), a.getMediaVoti()))
+                    .toList();
+
+            if (votati.isEmpty()) {
+                JOptionPane.showMessageDialog(view, "Nessun team è stato votato.");
+            } else {
+                StringBuilder sb = new StringBuilder("🏆 Classifica Team:\n");
+                int i = 1;
+                for (Team team : votati) {
+                    sb.append(i++).append(". ").append(team.getNomeTeam())
+                            .append(" - Voto medio: ").append(team.getMediaVoti()).append("\n");
+                }
+                JOptionPane.showMessageDialog(view, sb.toString());
+            }
         });
+
+
 
         view.getBtnTornaHome().addActionListener(e -> {
             view.dispose(); // chiude la finestra di valutazione
@@ -41,32 +59,34 @@ public class ValutazioneTeamController {
     }
 
     private void popolaTeam() {
-        for (Team team : hackathon.getTeamsRegistrati()) {
-            view.getComboTeam().addItem(team.getNomeTeam());
-        }
-    }
-
-    private void caricaTeam(String titoloHackathon) {
         view.getComboTeam().removeAllItems();
-        List<Team> lista = TeamModel.getInstance().trovaPerHackathon(titoloHackathon);
-        for (Team t : lista) {
-            view.getComboTeam().addItem(t.getNome());
+
+        // Legge i team dal database usando TeamModel
+        TeamModel teamModel = new TeamModel();  // usa new, non getInstance
+        List<Team> teamList = teamModel.trovaPerHackathon(hackathon.getTitoloIdentificativo());
+
+        // Salva i team in memoria per uso dopo (valutazione)
+        this.teamList = teamList;
+
+        for (Team t : teamList) {
+            view.getComboTeam().addItem(t.getNomeTeam());
         }
     }
-
 
     private void assegnaVoto() {
         String nomeTeam = (String) view.getComboTeam().getSelectedItem();
         int voto = (int) view.getSpinnerVoto().getValue();
 
-        for (Team team : hackathon.getTeamsRegistrati()) {
+        for (Team team : teamList) {
             if (team.getNomeTeam().equalsIgnoreCase(nomeTeam)) {
-                giudice.sceltaVoto(team, voto, hackathon);
+                giudice.sceltaVoto(team, voto, hackathon); // 👈 usa hackathon reale!
                 JOptionPane.showMessageDialog(view, "Voto assegnato con successo!");
                 return;
             }
         }
 
-        JOptionPane.showMessageDialog(view, "Team non trovato.");
+        JOptionPane.showMessageDialog(view, "Errore: team non trovato.");
     }
+
+
 }

@@ -1,5 +1,6 @@
 package PostgresDAO;
 
+import Entity.Organizzatore;
 import dao.TeamDAO;
 import database.DBConnection;
 import Entity.Team;
@@ -49,7 +50,8 @@ public class PostgresTeamDAO implements TeamDAO {
             if (rs.next()) {
                 int dim = rs.getInt("dim_massima");
                 String titolo = rs.getString("hackathon_titolo");
-                HackaThon hackathon = new HackaThon(dim, null, titolo); // Organizzatore opzionale qui
+                HackaThon hackathon = HackaThon.ricostruisciDaDB(dim, new Organizzatore("placeholder"), titolo);
+
 
                 team = new Team(hackathon, nomeTeam);
 
@@ -117,6 +119,30 @@ public class PostgresTeamDAO implements TeamDAO {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public List<Team> trovaTeamPerHackathon(String titoloHackathon) {
+        List<Team> lista = new ArrayList<>();
+        try (Connection conn = DBConnection.getConnection()) {
+            String sql = "SELECT nome FROM team WHERE hackathon_titolo = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, titoloHackathon);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String nomeTeam = rs.getString("nome");
+                Team team = trovaPerNome(nomeTeam);
+                if (team != null) {
+                    lista.add(team);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
+
 }
 
 

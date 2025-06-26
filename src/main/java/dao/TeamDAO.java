@@ -10,4 +10,6 @@ public interface TeamDAO {
     List<Team> trovaTutti();
     void aggiorna(Team team);
     void elimina(String nomeTeam);
+    List<Team> trovaTeamPerHackathon(String titoloHackathon);
+
 }
