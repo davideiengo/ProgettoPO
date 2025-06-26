@@ -56,9 +56,10 @@ public class Team {
         return true;
     }
 
-    public int getMediaVoti() {
-        return numeroVoti == 0 ? -1 : sommaVoti / numeroVoti;
+    public double getMediaVoti() {
+        return numeroVoti == 0 ? -1 : (double) sommaVoti / numeroVoti;
     }
+
 
     public boolean isVotato() {
         return numeroVoti > 0;
@@ -66,7 +67,7 @@ public class Team {
 
     @Override
     public String toString() {
-        int media = getMediaVoti();
+        double media = getMediaVoti();
         return nomeTeam + " - Voto medio: " + (media == -1 ? "N.D." : media);
     }
 

@@ -153,7 +153,7 @@ public class HackaThon {
             return;
         }
 
-        votati.sort((t1, t2) -> Integer.compare(t2.getMediaVoti(), t1.getMediaVoti()));
+        votati.sort((t1, t2) -> Double.compare(t2.getMediaVoti(), t1.getMediaVoti()));
 
         System.out.println("🏆 Classifica dei Team:");
         int posizione = 1;
