@@ -6,6 +6,9 @@ import View.HomeView;
 import View.LoginGiudiceView;
 import Entity.Giudice;
 import Entity.HackaThon;
+import Models.GiudiceModel;
+import java.util.List;
+
 
 import javax.swing.*;
 
@@ -19,33 +22,39 @@ public class LoginGiudiceController {
 
     public void eseguiLogin() {
         String titoloHackathon = (String) view.getComboHackathon().getSelectedItem();
-        String nomeGiudice = (String) view.getComboGiudici().getSelectedItem();
-        String password = new String(view.getTxtPassword().getPassword());
+        String nomeGiudice     = (String) view.getComboGiudici().getSelectedItem();
+        String password        = new String(view.getTxtPassword().getPassword());
 
         if (titoloHackathon == null || nomeGiudice == null || password.isEmpty()) {
             JOptionPane.showMessageDialog(view, "Compila tutti i campi.");
             return;
         }
 
-        HackaThon hackathon = HackathonModel.getInstance().getHackathonByTitolo(titoloHackathon);
-        if (hackathon != null) {
-            for (Giudice g : hackathon.getGiudici()) {
-                if (g.getNome().equalsIgnoreCase(nomeGiudice)) {
-                    if (GiudiceModel.getInstance().verificaPassword(g, password)) {
-                        JOptionPane.showMessageDialog(view, "Accesso effettuato con successo!");
-                        new ValutazioneTeamController(hackathon.getTitoloIdentificativo(), g);
-                        view.dispose(); // Chiudi la finestra di login
-                        return;
-                    } else {
-                        JOptionPane.showMessageDialog(view, "Password errata.");
-                        return;
-                    }
-                }
-            }
+        //  Recupero giudici dal DB
+        List<Giudice> lista = GiudiceModel.getInstance().trovaPerHackathon(titoloHackathon);
+        Giudice giudiceSel = lista.stream()
+                .filter(g -> g.getNome().equalsIgnoreCase(nomeGiudice))
+                .findFirst()
+                .orElse(null);
+
+        if (giudiceSel == null) {
+            JOptionPane.showMessageDialog(view, "Errore: Giudice non trovato per questa hackathon.");
+            return;
         }
 
-        JOptionPane.showMessageDialog(view, "Errore: Giudice non trovato per questa hackathon.");
+        //  Verifica password
+        if (!GiudiceModel.getInstance().verificaPassword(giudiceSel, password)) {
+            JOptionPane.showMessageDialog(view, "Password errata.");
+            return;
+        }
+
+        //  Login OK → apro la schermata di valutazione
+        HackaThon hackathon = HackathonModel.getInstance().getHackathonByTitolo(titoloHackathon);
+        JOptionPane.showMessageDialog(view, "Accesso effettuato con successo!");
+        new ValutazioneTeamController(hackathon.getTitoloIdentificativo(), giudiceSel);
+        view.dispose();
     }
+
 
 
     private void inizializza() {
@@ -97,13 +106,12 @@ public class LoginGiudiceController {
 
     public void caricaGiudiciPerHackathon(String titoloHackathon) {
         view.getComboGiudici().removeAllItems();
-        HackaThon h = HackathonModel.getInstance().getHackathonByTitolo(titoloHackathon);
-        if (h != null) {
-            for (Giudice g : h.getGiudici()) {
-                view.getComboGiudici().addItem(g.getNome());
-            }
+        for (Giudice g : GiudiceModel.getInstance().trovaPerHackathon(titoloHackathon)) {
+            view.getComboGiudici().addItem(g.getNome());
         }
     }
+
+
 
     public void tornaHome() {
         view.dispose();

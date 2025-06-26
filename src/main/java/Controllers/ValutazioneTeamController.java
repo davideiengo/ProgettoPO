@@ -6,6 +6,9 @@ import Entity.Giudice;
 import Models.HackathonModel;
 import View.HomeView;
 import View.ValutazioneTeamView;
+import Models.TeamModel;
+import java.util.List;
+
 
 import javax.swing.*;
 
@@ -42,6 +45,15 @@ public class ValutazioneTeamController {
             view.getComboTeam().addItem(team.getNomeTeam());
         }
     }
+
+    private void caricaTeam(String titoloHackathon) {
+        view.getComboTeam().removeAllItems();
+        List<Team> lista = TeamModel.getInstance().trovaPerHackathon(titoloHackathon);
+        for (Team t : lista) {
+            view.getComboTeam().addItem(t.getNome());
+        }
+    }
+
 
     private void assegnaVoto() {
         String nomeTeam = (String) view.getComboTeam().getSelectedItem();

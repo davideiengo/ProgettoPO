@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class TeamModel {
     private TeamDAO teamDAO = new PostgresTeamDAO();
 
+
     public Team creaTeam(String nomeTeam, HackaThon hackathon) {
         return new Team(hackathon, nomeTeam);
     }

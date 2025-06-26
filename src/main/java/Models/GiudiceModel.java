@@ -8,6 +8,7 @@ import PostgresDAO.PostgresGiudiceDAO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class GiudiceModel {
     private static GiudiceModel instance;
@@ -20,6 +21,11 @@ public class GiudiceModel {
 
     public boolean verificaPassword(Giudice g, String password) {
         return giudiceDAO.verificaPassword(g, password);
+    }
+
+    // Restituisce dal DB tutti i giudici collegati a un hackathon
+    public List<Giudice> trovaPerHackathon(String titoloHackathon) {
+        return giudiceDAO.getGiudiciPerHackathon(titoloHackathon);
     }
 
 

@@ -6,6 +6,10 @@ import Entity.Utente;
 import Models.HackathonModel;
 import Models.GiudiceModel;
 import View.SelezioneGiudiceView;
+import Models.UtenteModel;
+
+
+
 
 import javax.swing.*;
 
@@ -27,44 +31,50 @@ public class SelezioneGiudiceController {
     private void aggiornaUtentiRegistrati() {
         view.getComboUtenti().removeAllItems();
         String titolo = (String) view.getComboHackathon().getSelectedItem();
-        HackaThon h = HackathonModel.getInstance().getHackathonByTitolo(titolo);
-        if (h != null) {
-            for (Utente u : h.getUtentiRegistrati()) {
+        if (titolo == null) return;
+
+        // Legge i registrati direttamente dal DB
+        for (Utente u : UtenteModel.getInstance().trovaPerHackathon(titolo)) {
+            if (u.getRegistrato()) {               // mostro solo chi è realmente registrato
                 view.getComboUtenti().addItem(u.getNome());
             }
         }
     }
 
+
     public void confermaGiudice() {
         String hackathonTitolo = (String) view.getComboHackathon().getSelectedItem();
-        String utenteNome = (String) view.getComboUtenti().getSelectedItem();
-        String password = view.getTxtPassword().getText();
+        String utenteNome      = (String) view.getComboUtenti().getSelectedItem();
+        String password        = view.getTxtPassword().getText();
 
-        HackaThon h = HackathonModel.getInstance().getHackathonByTitolo(hackathonTitolo);
-        if (h == null || utenteNome == null || utenteNome.isEmpty()) {
-            JOptionPane.showMessageDialog(view, "Errore: seleziona un hackathon e un utente valido.");
+        if (hackathonTitolo == null || utenteNome == null || password.isEmpty()) {
+            JOptionPane.showMessageDialog(view, "Errore: seleziona un hackathon, un utente e inserisci la password.");
             return;
         }
 
-        // Cerca l'oggetto Utente reale dalla lista di registrati
-        Utente utente = null;
-        for (Utente u : h.getUtentiRegistrati()) {
-            if (u.getNome().equalsIgnoreCase(utenteNome)) {
-                utente = u;
-                break;
-            }
-        }
+        // 1️⃣ Recupera l’hackathon (serve più tardi per salvare il giudice)
+        HackaThon hackathon = HackathonModel.getInstance().getHackathonByTitolo(hackathonTitolo);
+
+        // 2️⃣ Recupera l’utente direttamente dal DB → niente più lista vuota!
+        Utente utente = UtenteModel.getInstance()
+                .trovaPerHackathon(hackathonTitolo)    // SELECT sul DB
+                .stream()
+                .filter(u -> u.getNome().equalsIgnoreCase(utenteNome))
+                .findFirst()
+                .orElse(null);
 
         if (utente == null) {
             JOptionPane.showMessageDialog(view, "Errore: utente non trovato tra i registrati.");
             return;
         }
 
-        Giudice g = new Giudice(utente);
-        GiudiceModel.getInstance().aggiungiGiudice(g, h, password);
+        // 3️⃣ Crea il giudice e lo salva
+        Giudice giudice = new Giudice(utente);
+        GiudiceModel.getInstance().aggiungiGiudice(giudice, hackathon, password);
 
         JOptionPane.showMessageDialog(view, "Giudice aggiunto con successo all'hackathon!");
         view.dispose();
     }
+
 }
 
