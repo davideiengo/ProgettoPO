@@ -8,7 +8,6 @@ public class Team {
     private int dimMassimaTeam;
     private ArrayList<Utente> membri;
     private HackaThon hackathon;
-
     private int sommaVoti = 0;
     private int numeroVoti = 0;
     private HashSet<String> giudiciCheHannoVotato = new HashSet<>();
@@ -27,7 +26,6 @@ public class Team {
     public void setHackathon(HackaThon hackathon) {
         this.hackathon = hackathon;
     }
-
 
     public String getNomeTeam() {
         return nomeTeam;
@@ -64,7 +62,6 @@ public class Team {
     public double getMediaVoti() {
         return numeroVoti == 0 ? -1 : (double) sommaVoti / numeroVoti;
     }
-
 
     public boolean isVotato() {
         return numeroVoti > 0;

@@ -48,7 +48,6 @@ public class UserController {
         }
     }
 
-
     public void caricaHackathonDisponibili() {
         ArrayList<HackaThon> lista = model.getTutti();
         ArrayList<String> titoli = new ArrayList<>();

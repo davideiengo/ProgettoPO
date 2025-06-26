@@ -9,11 +9,6 @@ public class Giudice extends Utente {
         this.setRegistrato(utente.getRegistrato());
     }
 
-    /**
-     * Assegna un voto al team e lo salva nel DB.
-     * Il controllo di coerenza si basa sul titolo dell'hackathon
-     * (evitiamo di confrontare riferimenti a oggetti diversi).
-     */
     public void sceltaVoto(Team team, int voto, HackaThon hackathon) {
 
         boolean stessoHackathon = team.getHackathon()

@@ -8,7 +8,6 @@ import Models.TeamModel;
 import PostgresDAO.PostgresVotoDAO;
 import View.HomeView;
 import View.ValutazioneTeamView;
-
 import javax.swing.*;
 import java.util.List;
 

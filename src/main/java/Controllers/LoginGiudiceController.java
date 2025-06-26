@@ -6,7 +6,6 @@ import View.HomeView;
 import View.LoginGiudiceView;
 import Entity.Giudice;
 import Entity.HackaThon;
-import Models.GiudiceModel;
 import java.util.List;
 
 
@@ -54,8 +53,6 @@ public class LoginGiudiceController {
         new ValutazioneTeamController(hackathon.getTitoloIdentificativo(), giudiceSel);
         view.dispose();
     }
-
-
 
     private void inizializza() {
         caricaHackathon();

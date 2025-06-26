@@ -61,31 +61,6 @@ public class PostgresUtenteDAO implements UtenteDAO {
         return utenti;
     }
 
-    @Override
-    public void aggiorna(Utente utente) {
-        try (Connection conn = DBConnection.getConnection()) {
-            String sql = "UPDATE utente SET registrato = ? WHERE nome = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setBoolean(1, utente.getRegistrato());
-            stmt.setString(2, utente.getNome());
-            stmt.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void elimina(String nome) {
-        try (Connection conn = DBConnection.getConnection()) {
-            String sql = "DELETE FROM utente WHERE nome = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, nome);
-            stmt.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public void salvaAssociazioneUtenteHackathon(String utenteNome, String hackathonTitolo) {
         try (Connection conn = DBConnection.getConnection()) {
             String sql = "INSERT INTO utente_hackathon (utente_nome, hackathon_titolo) VALUES (?, ?)";

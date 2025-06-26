@@ -12,7 +12,6 @@ public class HackathonRegistry {
         return titoliHackathon.add(titolo.toLowerCase());
     }
 
-
     public static boolean esisteHackathon(String titolo) {
         return titoliHackathon.contains(titolo.toLowerCase());
     }
@@ -24,13 +23,5 @@ public class HackathonRegistry {
         }
     }
 
-    public static HackaThon getHackathonByTitolo(String titolo) {
-        return hackathonMap.get(titolo.toLowerCase());
-    }
-
-    public static void reset() {
-        titoliHackathon.clear();
-        hackathonMap.clear();
-    }
 }
 

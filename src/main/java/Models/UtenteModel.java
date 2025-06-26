@@ -27,10 +27,6 @@ public class UtenteModel {
         return utenteDAO.trovaPerNome(nome);
     }
 
-    public List<Utente> tutti() {
-        return utenteDAO.trovaTutti();
-    }
-
     public List<Utente> trovaPerHackathon(String titoloHackathon) {
         return utenteDAO.trovaUtentiPerHackathon(titoloHackathon);
     }

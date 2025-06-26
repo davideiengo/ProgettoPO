@@ -1,22 +1,16 @@
 package Entity;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 public class HackaThon {
     private String titoloIdentificativo;
-    private int dataInizio;
-    private int dataFine;
     private Organizzatore organizzatore;
-    private int numeroMassimoIscritti;
     private int dimensioneMaxTeam;
     private ArrayList<Utente> utentiRegistrati = new ArrayList<>();
     private ArrayList<Team> teamsRegistrati = new ArrayList<>();
     private boolean statusRegistrazioni = false;
     private boolean appartiene = false;
     private ArrayList<Giudice> giudici = new ArrayList<>();
-    private boolean classificaPubblicata = false;
     private ArrayList<Team> listaTeam = new ArrayList<>();
 
 
@@ -43,16 +37,10 @@ public class HackaThon {
         this.organizzatore = organizzatore;
     }
 
-
     public static HackaThon ricostruisciDaDB(int dimensioneMaxTeam, Organizzatore organizzatore, String titolo) {
         HackaThon h = new HackaThon(dimensioneMaxTeam, organizzatore, titolo, false);
         HackathonRegistry.aggiungiHackathon(h);
         return h;
-    }
-
-
-    public boolean isClassificaPubblicata() {
-        return classificaPubblicata;
     }
 
     public void aggiungiGiudice(Giudice g, String password) {
@@ -118,7 +106,6 @@ public class HackaThon {
         // 🔇 Nessun messaggio nel ramo else: il controller si occupa già di informare l’utente
     }
 
-
     public boolean registraUtente(Utente utente) {
         // Controlla se esiste già un utente con lo stesso nome
         if (esisteUtenteConNome(utente.getNome())) {
@@ -127,10 +114,6 @@ public class HackaThon {
         }
         utentiRegistrati.add(utente);
         return true; // registrazione avvenuta con successo
-    }
-
-    public ArrayList<Utente> getUtentiRegistrati() {
-        return utentiRegistrati;
     }
 
     public boolean esisteUtenteConNome(String nomeUtente) {
@@ -142,47 +125,8 @@ public class HackaThon {
         return false; // nessun utente con quel nome
     }
 
-    public void pubblicaClassifica() {
-        ArrayList<Team> votati = new ArrayList<>();
-        ArrayList<Team> nonVotati = new ArrayList<>();
-
-        for (Team team : teamsRegistrati) {
-            if (team.isVotato()) {
-                votati.add(team);
-            } else {
-                nonVotati.add(team);
-            }
-        }
-
-        if (votati.isEmpty()) {
-            System.out.println("⚠ Nessun team è stato ancora votato.");
-            return;
-        }
-
-        votati.sort((t1, t2) -> Double.compare(t2.getMediaVoti(), t1.getMediaVoti()));
-
-        System.out.println("🏆 Classifica dei Team:");
-        int posizione = 1;
-        for (Team team : votati) {
-            System.out.println(posizione++ + ". " + team.getNomeTeam() + " - Media voto: " + team.getMediaVoti());
-        }
-
-        if (!nonVotati.isEmpty()) {
-            System.out.println("\nTeam non ancora votati:");
-            for (Team team : nonVotati) {
-                System.out.println("- " + team.getNomeTeam());
-            }
-        }
-
-        this.classificaPubblicata = true;
-    }
-
     public void setAppartiene() {
         this.appartiene = true;
-    }
-
-    public ArrayList<Team> getTeamsRegistrati(){
-        return this.teamsRegistrati;
     }
 
     public Organizzatore getOrganizzatore() {

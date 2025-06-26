@@ -4,8 +4,6 @@ import dao.GiudiceDAO;
 import database.DBConnection;
 import Entity.Giudice;
 import Entity.HackaThon;
-import Entity.Organizzatore;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

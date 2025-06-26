@@ -10,18 +10,5 @@ public class Organizzatore {
     public String getOrganizzatore(){
         return nomeOrganizzatore;
     }
-
-    public void aperturaRegistrazioni(HackaThon hackaThon){
-        hackaThon.permettiIscrizioni(this);
-    }
-
-    public void sceltaGiudice(Giudice giudice, HackaThon hackaThon){
-        if(giudice.getRegistrato()) {
-            hackaThon.setAppartiene();
-        }
-        else{
-            System.out.println("L'utente non è registrato, non puoi decidere un giudice se non sono registrati");
-        }
-    }
 }
 

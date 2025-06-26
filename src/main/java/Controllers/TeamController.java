@@ -52,7 +52,6 @@ public class TeamController {
         }
     }
 
-
     public void creaTeam() {
         if (team != null) {
             // Verifica che il team abbia almeno un membro
@@ -82,7 +81,6 @@ public class TeamController {
             }
         }
     }
-
 
     public void tornaAllaHome() {
         view.setVisible(false);

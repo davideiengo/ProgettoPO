@@ -6,10 +6,8 @@ import database.DBConnection;
 import Entity.Team;
 import Entity.Utente;
 import Entity.HackaThon;
-
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public class PostgresTeamDAO implements TeamDAO {

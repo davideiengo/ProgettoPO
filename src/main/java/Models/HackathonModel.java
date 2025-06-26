@@ -1,7 +1,6 @@
 package Models;
 
 import Entity.HackaThon;
-import Entity.Organizzatore;
 import dao.HackathonDAO;
 import PostgresDAO.PostgresHackathonDAO;
 
@@ -12,8 +11,6 @@ public class HackathonModel {
     private static HackathonModel instance = null;
     private ArrayList<HackaThon> hackathonList = new ArrayList<>();
     private HackathonDAO hackathonDAO = new PostgresHackathonDAO();
-
-
 
     private HackathonModel() {}
 
@@ -29,7 +26,6 @@ public class HackathonModel {
         hackathonDAO.salvaHackathon(h); // Salva nel DB
     }
 
-
     public HackaThon getHackathonByTitolo(String titolo) {
         return hackathonDAO.trovaPerTitolo(titolo);
     }
@@ -37,8 +33,6 @@ public class HackathonModel {
     public void aggiornaRegistrazioni(HackaThon h) {
         hackathonDAO.aggiorna(h);
     }
-
-
 
     public boolean esisteHackathonConTitolo(String titolo) {
         for (HackaThon h : hackathonList) {

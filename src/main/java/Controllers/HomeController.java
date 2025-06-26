@@ -15,6 +15,7 @@ public class HomeController {
         homeView.setVisible(false);
         new OrganizzatoreView();
     }
+
     public void apriRegistrazioneUtente() {
         homeView.setVisible(false);
         new View.UserRegistrationView();

@@ -41,7 +41,6 @@ public class SelezioneGiudiceController {
         }
     }
 
-
     public void confermaGiudice() {
         String hackathonTitolo = (String) view.getComboHackathon().getSelectedItem();
         String utenteNome      = (String) view.getComboUtenti().getSelectedItem();
@@ -75,6 +74,5 @@ public class SelezioneGiudiceController {
         JOptionPane.showMessageDialog(view, "Giudice aggiunto con successo all'hackathon!");
         view.dispose();
     }
-
 }
 

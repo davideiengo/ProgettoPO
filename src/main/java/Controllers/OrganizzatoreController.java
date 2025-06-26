@@ -39,7 +39,6 @@ public class OrganizzatoreController {
         return false;
     }
 
-
     public void apriVistaSelezioneGiudice() {
         new SelezioneGiudiceView();
     }

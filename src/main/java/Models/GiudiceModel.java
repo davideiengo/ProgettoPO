@@ -28,8 +28,6 @@ public class GiudiceModel {
         return giudiceDAO.getGiudiciPerHackathon(titoloHackathon);
     }
 
-
-
     public static GiudiceModel getInstance() {
         if (instance == null) {
             instance = new GiudiceModel();
@@ -45,7 +43,5 @@ public class GiudiceModel {
             giudiceDAO.aggiungiGiudice(g, h, password);
         }
     }
-
-
 }
 
