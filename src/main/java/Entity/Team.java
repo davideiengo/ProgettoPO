@@ -24,6 +24,11 @@ public class Team {
         this.membri = new ArrayList<>(dimMassimaTeam);
     }
 
+    public void setHackathon(HackaThon hackathon) {
+        this.hackathon = hackathon;
+    }
+
+
     public String getNomeTeam() {
         return nomeTeam;
     }

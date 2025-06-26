@@ -38,7 +38,7 @@ public class UserController {
             utente.setRegistrato(true);
             UtenteModel.getInstance().salva(utente);
 
-            // 👉 AGGIUNGI QUESTA PARTE: salva nella nuova tabella
+            //  salva nella nuova tabella
             PostgresUtenteDAO dao = new PostgresUtenteDAO();
             dao.salvaAssociazioneUtenteHackathon(utente.getNome(), hackathon.getTitoloIdentificativo());
 
