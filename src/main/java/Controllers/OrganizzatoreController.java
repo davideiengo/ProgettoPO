@@ -31,7 +31,7 @@ public class OrganizzatoreController {
         if (h != null && h.getOrganizzatore().getOrganizzatore().equals(nomeOrganizzatore)) {
             h.permettiIscrizioni(h.getOrganizzatore());
 
-            // 🔧 Salva il nuovo stato nel database
+            //  Salva il nuovo stato nel database
             HackathonModel.getInstance().aggiornaRegistrazioni(h);
 
             return true;

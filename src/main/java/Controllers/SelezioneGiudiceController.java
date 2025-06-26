@@ -52,10 +52,10 @@ public class SelezioneGiudiceController {
             return;
         }
 
-        // 1️⃣ Recupera l’hackathon (serve più tardi per salvare il giudice)
+        // Recupera l’hackathon (serve per salvare il giudice)
         HackaThon hackathon = HackathonModel.getInstance().getHackathonByTitolo(hackathonTitolo);
 
-        // 2️⃣ Recupera l’utente direttamente dal DB → niente più lista vuota!
+        // Recupera l’utente direttamente dal DB
         Utente utente = UtenteModel.getInstance()
                 .trovaPerHackathon(hackathonTitolo)    // SELECT sul DB
                 .stream()
@@ -68,7 +68,7 @@ public class SelezioneGiudiceController {
             return;
         }
 
-        // 3️⃣ Crea il giudice e lo salva
+        // Crea il giudice e lo salva
         Giudice giudice = new Giudice(utente);
         GiudiceModel.getInstance().aggiungiGiudice(giudice, hackathon, password);
 

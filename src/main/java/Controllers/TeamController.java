@@ -45,7 +45,6 @@ public class TeamController {
                 return;
             }
 
-            // ✅ Solo crea il team, NON lo salva ancora
             team = new Team(selectedHackathon, nomeTeam);
 
             // Apre la finestra per selezionare membri
@@ -76,7 +75,7 @@ public class TeamController {
                 selectedHackathon.aggiungiTeam(team);
                 selectedHackathon.registraTeam(team);
 
-                // ✅ SALVA nel database SOLO ORA
+                // SALVA nel database
                 new PostgresTeamDAO().salvaTeam(team);
 
                 JOptionPane.showMessageDialog(view, "Team registrato correttamente!");

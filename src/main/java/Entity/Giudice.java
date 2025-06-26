@@ -20,7 +20,7 @@ public class Giudice extends Utente {
         boolean successo = team.assegnaVoto(this.getNome(), voto);
 
         if (successo) {
-            // ✅ Salva nel DB
+            // Salva nel DB
             new PostgresVotoDAO().salvaVoto(team.getNomeTeam(), this.getNome(), voto);
             System.out.println("💾 Voto salvato per il team " + team.getNomeTeam());
         } else {

@@ -10,7 +10,6 @@ public interface UtenteDAO {
     void aggiorna(Utente utente);
     void elimina(String nome);
 
-    // 👉 AGGIUNGI QUESTO
     List<Utente> trovaUtentiPerHackathon(String titoloHackathon);
 }
 
