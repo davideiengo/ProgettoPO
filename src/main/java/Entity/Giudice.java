@@ -9,22 +9,34 @@ public class Giudice extends Utente {
         this.setRegistrato(utente.getRegistrato());
     }
 
+    /**
+     * Assegna un voto al team e lo salva nel DB.
+     * Il controllo di coerenza si basa sul titolo dell'hackathon
+     * (evitiamo di confrontare riferimenti a oggetti diversi).
+     */
     public void sceltaVoto(Team team, int voto, HackaThon hackathon) {
-        boolean esiste = hackathon.getTeams().stream()
-                .anyMatch(t -> t.getNomeTeam().equalsIgnoreCase(team.getNomeTeam()));
-        if (!esiste) {
-            System.out.println("⚠️ Il team '" + team.getNomeTeam() + "' non appartiene all'hackathon.");
+
+        boolean stessoHackathon = team.getHackathon()
+                .getTitoloIdentificativo()
+                .equalsIgnoreCase(hackathon.getTitoloIdentificativo());
+
+        if (!stessoHackathon) {                 // ←  controllo più robusto
+            System.out.println("⚠️ Il team '" + team.getNomeTeam()
+                    + "' non appartiene all'hackathon selezionato.");
             return;
         }
 
-        boolean successo = team.assegnaVoto(this.getNome(), voto);
+        // se il giudice non ha ancora votato il team, registra voto in RAM …
+        boolean nuovoVoto = team.assegnaVoto(this.getNome(), voto);
 
-        if (successo) {
-            // ✅ Salva nel DB
+        if (nuovoVoto) {
+            // … e persiste nel database
             new PostgresVotoDAO().salvaVoto(team.getNomeTeam(), this.getNome(), voto);
-            System.out.println("💾 Voto salvato per il team " + team.getNomeTeam());
+            System.out.println("💾 Voto salvato: Team=" + team.getNomeTeam()
+                    + ", Giudice=" + this.getNome() + ", Voto=" + voto);
         } else {
-            System.out.println("⚠️ Il giudice " + this.getNome() + " ha già votato il team " + team.getNomeTeam());
+            System.out.println("⚠️ Il giudice " + this.getNome()
+                    + " ha già votato il team " + team.getNomeTeam());
         }
     }
 }

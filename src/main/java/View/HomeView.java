@@ -4,11 +4,16 @@ import Controllers.HomeController;
 import Entity.HackaThon;
 import Entity.Team;
 import Models.HackathonModel;
+import Models.TeamModel;
+import PostgresDAO.PostgresVotoDAO;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
+import java.util.ArrayList;
+
 
 public class HomeView extends JFrame {
     private JPanel homeView;
@@ -89,7 +94,7 @@ public class HomeView extends JFrame {
         menuHome.addActionListener(e -> JOptionPane.showMessageDialog(this, "Sei già nella Home."));
         menuEsci.addActionListener(e -> System.exit(0));
         menuInfo.addActionListener(e -> JOptionPane.showMessageDialog(this,
-                "Progetto PO - Gestione Hackathon\nRealizzato da Antonio Giaccio e Davide Iovine\nAnno Accademico 2024/25",
+                "Progetto PO - Gestione Hackathon\nRealizzato da Antonio Giaccio e Davide Iengo\nAnno Accademico 2024/25",
                 "Info", JOptionPane.INFORMATION_MESSAGE));
     }
 
@@ -138,17 +143,43 @@ public class HomeView extends JFrame {
             String titolo = (String) comboHackathonClassifica.getSelectedItem();
             if (titolo != null) {
                 HackaThon h = HackathonModel.getInstance().getHackathonByTitolo(titolo);
-                if (h != null && h.isClassificaPubblicata()) {
-                    // Costruisco la classifica dei team con voto medio
-                    StringBuilder sb = new StringBuilder("Classifica Team:\n");
-                    int pos = 1;
-                    for (Team team : h.getTeams()) {
-                        sb.append(pos++).append(". ").append(team.getNomeTeam())
-                                .append(" - Voto: ").append(team.getMediaVoti()).append("\n");
+                if (h != null) {
+                    TeamModel teamModel = new TeamModel();
+                    List<Team> teamList = teamModel.trovaPerHackathon(titolo);
+
+                    PostgresVotoDAO votoDAO = new PostgresVotoDAO();
+
+                    boolean almenoUnVoto = false;
+
+                    // Carica i voti nel team
+                    for (Team team : teamList) {
+                        List<Integer> voti = votoDAO.getVotiPerTeam(team.getNomeTeam());
+                        for (int i = 0; i < voti.size(); i++) {
+                            team.assegnaVoto("db" + i, voti.get(i));
+                        }
+                        if (!voti.isEmpty()) {
+                            almenoUnVoto = true;
+                        }
                     }
-                    JOptionPane.showMessageDialog(this, sb.toString());
-                } else {
-                    JOptionPane.showMessageDialog(this, "La classifica per questa hackathon non è ancora stata pubblicata.");
+
+                    if (almenoUnVoto) {
+                        // Mostra classifica
+                        teamList.sort((a, b) -> Double.compare(b.getMediaVoti(), a.getMediaVoti()));
+                        StringBuilder sb = new StringBuilder("🏆 Classifica Team:\n");
+                        int pos = 1;
+                        for (Team team : teamList) {
+                            if (team.isVotato()) {
+                                sb.append(pos++).append(". ")
+                                        .append(team.getNomeTeam())
+                                        .append(" - Voto medio: ")
+                                        .append(String.format("%.2f", team.getMediaVoti()))
+                                        .append("\n");
+                            }
+                        }
+                        JOptionPane.showMessageDialog(this, sb.toString());
+                    } else {
+                        JOptionPane.showMessageDialog(this, "La classifica per questa hackathon non è ancora stata pubblicata.");
+                    }
                 }
             }
         });

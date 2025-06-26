@@ -89,6 +89,7 @@ public class HackaThon {
 
     public void registraTeam(Team team) {
         boolean tuttiRegistrati = true;
+
         for (Utente utente : team.getUtenti()) {
             if (!utentiRegistrati.contains(utente)) {
                 tuttiRegistrati = false;
@@ -96,22 +97,27 @@ public class HackaThon {
             }
         }
 
+        // Controlla se esiste già un team con lo stesso nome (in memoria)
         if (TeamRegistry.esisteTeam(team.getNomeTeam())) {
             System.out.println("Errore: esiste già un team con questo nome.");
             return;
         }
+
+        // Team vuoto
         if (team.getUtenti().isEmpty()) {
             System.out.println("Errore: impossibile registrare un team vuoto.");
             return;
         }
 
+        // Registra il team se rispetta i vincoli
         if (team.getDimMassimaTeam() <= this.dimensioneMaxTeam && tuttiRegistrati) {
             teamsRegistrati.add(team);
             TeamRegistry.registraTeam(team.getNomeTeam());
-        } else {
-            System.out.println("Il team non è stato registrato: Un utente potrebbe non essere registrato, oppure il team è troppo grande.");
         }
+
+        // 🔇 Nessun messaggio nel ramo else: il controller si occupa già di informare l’utente
     }
+
 
     public boolean registraUtente(Utente utente) {
         // Controlla se esiste già un utente con lo stesso nome
