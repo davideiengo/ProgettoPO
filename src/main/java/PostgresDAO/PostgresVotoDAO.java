@@ -2,6 +2,8 @@ package PostgresDAO;
 
 import dao.VotoDAO;
 import database.DBConnection;
+import java.util.HashMap;
+import java.util.Map;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -48,5 +50,22 @@ public class PostgresVotoDAO implements VotoDAO {
         }
         return voti;
     }
+
+    public Map<String, Integer> getMappaVotiPerTeam(String teamNome) {
+        Map<String, Integer> votiMap = new HashMap<>();
+        try (Connection conn = DBConnection.getConnection()) {
+            String sql = "SELECT giudice_nome, voto FROM voto WHERE team_nome = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, teamNome);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                votiMap.put(rs.getString("giudice_nome"), rs.getInt("voto"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return votiMap;
+    }
+
 }
 

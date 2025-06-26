@@ -11,6 +11,7 @@ import View.ValutazioneTeamView;
 
 import javax.swing.*;
 import java.util.List;
+import java.util.Map;
 
 public class ValutazioneTeamController {
     private ValutazioneTeamView view;
@@ -41,20 +42,35 @@ public class ValutazioneTeamController {
         List<Team> lista = teamModel.trovaPerHackathon(hackathon.getTitoloIdentificativo());
 
         PostgresVotoDAO votoDAO = new PostgresVotoDAO();
-        for (Team team : lista) {
-            List<Integer> voti = votoDAO.getVotiPerTeam(team.getNomeTeam());
+        System.out.println("▶️ Inizio caricamento team per hackathon: " + hackathon.getTitoloIdentificativo());
 
-            // Assegna i voti uno per uno (nomeGiudice fittizio)
-            int i = 0;
-            for (Integer voto : voti) {
-                team.assegnaVoto("g" + i++, voto);
+        for (Team team : lista) {
+            System.out.println("🔄 Trovato team: " + team.getNomeTeam());
+
+            // Collega il team all’hackathon
+            team.setHackathon(hackathon);
+
+            // Aggiungilo alla lista interna dell'hackathon
+            hackathon.aggiungiTeam(team);
+            System.out.println("✅ Team '" + team.getNomeTeam() + "' associato all'hackathon " + team.getHackathon().getTitoloIdentificativo());
+
+            // Carica voti esistenti da DB
+            Map<String, Integer> votiMap = votoDAO.getMappaVotiPerTeam(team.getNomeTeam());
+            for (Map.Entry<String, Integer> entry : votiMap.entrySet()) {
+                team.assegnaVoto(entry.getKey(), entry.getValue());
+                System.out.println("📊 Voto caricato: " + entry.getValue() + " da giudice " + entry.getKey() + " per team " + team.getNomeTeam());
             }
 
+            // Aggiungi il team alla combo box dell'interfaccia
             view.getComboTeam().addItem(team.getNomeTeam());
         }
 
         this.teamList = lista;
+
+        System.out.println("✅ Caricamento completato. Team disponibili per la valutazione: " + teamList.size());
     }
+
+
 
     private void assegnaVoto() {
         String nomeTeam = (String) view.getComboTeam().getSelectedItem();
