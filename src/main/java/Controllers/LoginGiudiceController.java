@@ -108,8 +108,6 @@ public class LoginGiudiceController {
         }
     }
 
-
-
     public void tornaHome() {
         view.dispose();
         new HomeView(); // Riapre la home

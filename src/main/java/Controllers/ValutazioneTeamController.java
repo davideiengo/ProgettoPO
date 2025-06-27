@@ -38,7 +38,7 @@ public class ValutazioneTeamController {
         });
     }
 
-    /** Carica team + voti dal DB e li mostra nella combo-box */
+    //Carica team e i voti dal DB e li mostra nella combo-box
     private void caricaTeam() {
         view.getComboTeam().removeAllItems();
 
@@ -57,7 +57,7 @@ public class ValutazioneTeamController {
         }
     }
 
-    /** Assegna un nuovo voto al team selezionato */
+    //Assegna un nuovo voto al team selezionato
     private void assegnaVoto() {
         String nomeTeam = (String) view.getComboTeam().getSelectedItem();
         int voto        = (int)    view.getSpinnerVoto().getValue();
@@ -72,7 +72,7 @@ public class ValutazioneTeamController {
         JOptionPane.showMessageDialog(view, "Errore: team non trovato.");
     }
 
-    /** Calcola e mostra la classifica */
+    //Calcola e mostra la classifica
     private void pubblicaClassifica() {
         var votati = teamList.stream()
                 .filter(Team::isVotato)

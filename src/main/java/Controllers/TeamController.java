@@ -1,8 +1,10 @@
 package Controllers;
 
 import Entity.TeamRegistry;
+import Entity.Utente;
 import Models.HackathonModel;
 import Models.TeamModel;
+import Models.UtenteModel;
 import PostgresDAO.PostgresTeamDAO;
 import View.HomeView;
 import View.TeamCreationView;
@@ -12,6 +14,7 @@ import Entity.Team;
 import View.TeamMembersSelectionView;
 
 import javax.swing.*;
+import java.util.List;
 
 public class TeamController {
 
@@ -54,31 +57,55 @@ public class TeamController {
 
     public void creaTeam() {
         if (team != null) {
-            // Verifica che il team abbia almeno un membro
+            // Controlla che il team abbia almeno un membro
             if (team.getUtenti().isEmpty()) {
                 JOptionPane.showMessageDialog(view, "Errore: Non puoi registrare un team vuoto.");
                 return;
             }
 
-            // Verifica che non superi la dimensione massima
+            // Controlla che non superi il numero massimo
             if (team.getUtenti().size() > team.getDimMassimaTeam()) {
-                JOptionPane.showMessageDialog(view, "Registrazione fallita: Il numero di membri del team supera il limite massimo consentito.");
-            } else {
-                // Controllo finale per evitare duplicati
-                if (TeamRegistry.esisteTeam(team.getNomeTeam())) {
-                    JOptionPane.showMessageDialog(view, "Errore: Esiste già un team con questo nome.");
+                JOptionPane.showMessageDialog(view, "Errore: Il numero di membri supera il limite massimo del team.");
+                return;
+            }
+
+            // Blocco giudici
+            for (var utente : team.getUtenti()) {
+                if (UtenteModel.getInstance().isGiudice(utente.getNome())) {
+                    JOptionPane.showMessageDialog(view,
+                            "Errore: \"" + utente.getNome() + "\" è un giudice e non può essere membro di un team.");
                     return;
                 }
-
-                // Aggiunge il team all'hackathon
-                selectedHackathon.aggiungiTeam(team);
-                selectedHackathon.registraTeam(team);
-
-                // SALVA nel database
-                new PostgresTeamDAO().salvaTeam(team);
-
-                JOptionPane.showMessageDialog(view, "Team registrato correttamente!");
             }
+
+            // Blocco utenti già assegnati a un team nello stesso hackathon
+            for (var utente : team.getUtenti()) {
+                boolean giàInTeam = UtenteModel.getInstance()
+                        .haGiaUnTeamNellHackathon(utente.getNome(), selectedHackathon.getTitoloIdentificativo());
+
+                if (giàInTeam) {
+                    JOptionPane.showMessageDialog(view,
+                            "Errore: \"" + utente.getNome() + "\" è già membro di un altro team in questo hackathon.");
+                    return;
+                }
+            }
+
+            //  Team con nome duplicato (in memoria)
+            if (TeamRegistry.esisteTeam(team.getNomeTeam())) {
+                JOptionPane.showMessageDialog(view, "Errore: Esiste già un team con questo nome.");
+                return;
+            }
+
+            // Tutto ok: registrazione
+            selectedHackathon.aggiungiTeam(team);
+            selectedHackathon.registraTeam(team);
+            new PostgresTeamDAO().salvaTeam(team);
+
+            JOptionPane.showMessageDialog(view, "✅ Team registrato con successo!");
+            view.dispose();
+            new HomeView();
+        } else {
+            JOptionPane.showMessageDialog(view, "Errore: il team non è stato creato.");
         }
     }
 

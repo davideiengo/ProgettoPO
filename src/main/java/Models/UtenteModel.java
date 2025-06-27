@@ -3,7 +3,6 @@ package Models;
 import dao.UtenteDAO;
 import PostgresDAO.PostgresUtenteDAO;
 import Entity.Utente;
-
 import java.util.List;
 
 public class UtenteModel {
@@ -30,6 +29,17 @@ public class UtenteModel {
     public List<Utente> trovaPerHackathon(String titoloHackathon) {
         return utenteDAO.trovaUtentiPerHackathon(titoloHackathon);
     }
+
+    public boolean isGiudice(String nomeUtente) {
+        return ((PostgresUtenteDAO) utenteDAO).isGiudice(nomeUtente);
+    }
+
+    public boolean haGiaUnTeamNellHackathon(String nomeUtente, String titoloHackathon) {
+        return ((PostgresUtenteDAO) utenteDAO).utenteHaGiaUnTeamNellHackathon(nomeUtente, titoloHackathon);
+    }
+
+
+
 
 }
 

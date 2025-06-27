@@ -72,6 +72,7 @@ public class PostgresUtenteDAO implements UtenteDAO {
             e.printStackTrace();
         }
     }
+
     public List<Utente> trovaUtentiPerHackathon(String titoloHackathon) {
         List<Utente> utenti = new ArrayList<>();
         try (Connection conn = DBConnection.getConnection()) {
@@ -95,6 +96,40 @@ public class PostgresUtenteDAO implements UtenteDAO {
         }
         return utenti;
     }
+
+    public boolean isGiudice(String nomeUtente) {
+        try (Connection conn = DBConnection.getConnection()) {
+            String sql = "SELECT 1 FROM giudice WHERE nome = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, nomeUtente);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next(); // se esiste, è giudice
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean utenteHaGiaUnTeamNellHackathon(String nomeUtente, String titoloHackathon) {
+        try (Connection conn = DBConnection.getConnection()) {
+            String sql = """
+            SELECT 1
+            FROM team_membri tm
+            JOIN team t ON tm.team_nome = t.nome
+            WHERE tm.utente_nome = ? AND t.hackathon_titolo = ?
+        """;
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, nomeUtente);
+            stmt.setString(2, titoloHackathon);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next(); // true = già assegnato a un team
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
 
 }
 
