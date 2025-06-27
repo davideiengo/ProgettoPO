@@ -126,9 +126,4 @@ public class OrganizzatoreView extends JFrame {
         testSolo.add(Box.createVerticalStrut(10));
         testSolo.add(btn);
     }
-
-
-    public String getInserisciNomeTextField() {
-        return txtNomeOrganizzatore.getText();
-    }
 }

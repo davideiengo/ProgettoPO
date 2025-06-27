@@ -23,7 +23,7 @@ public class PostgresVotoDAO implements VotoDAO {
             stmt.setInt(3, voto);
             stmt.executeUpdate();
 
-            System.out.println("💾 Voto salvato nel DB → Team: " + teamNome + ", Giudice: " + giudiceNome + ", Voto: " + voto);
+            System.out.println("Voto salvato nel DB → Team: " + teamNome + ", Giudice: " + giudiceNome + ", Voto: " + voto);
 
         } catch (Exception e) {
             e.printStackTrace();

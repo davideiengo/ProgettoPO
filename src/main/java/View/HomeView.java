@@ -48,7 +48,7 @@ public class HomeView extends JFrame {
         menuBar.add(menuAiuto);
         setJMenuBar(menuBar);
 
-        // === Layout e stile solo sul pannello già esistente (homeView) ===
+
         homeView.setLayout(new BorderLayout(20, 20));
         homeView.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
         homeView.setBackground(new Color(250, 250, 250));
@@ -63,18 +63,17 @@ public class HomeView extends JFrame {
         JPanel centerPanel = new JPanel(new GridLayout(3, 2, 20, 20));
         centerPanel.setOpaque(false); // mantiene il background trasparente
 
-        // Stile uniforme ai bottoni
+        // Stile
         styleButton(btnRegistraUtente);
         styleButton(btnLoginOrganizzatore);
         styleButton(btnGestioneTeam);
         styleButton(btnAreaGiudice);
         styleButton(btnVisualizzaClassifica);
 
-        // ComboBox stile coerente
+        // ComboBox
         comboHackathonClassifica.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         comboHackathonClassifica.setMaximumRowCount(5);
 
-        // Aggiungo i componenti
         centerPanel.add(btnRegistraUtente);
         centerPanel.add(btnLoginOrganizzatore);
         centerPanel.add(btnGestioneTeam);
@@ -98,7 +97,7 @@ public class HomeView extends JFrame {
                 "Info", JOptionPane.INFORMATION_MESSAGE));
     }
 
-    // Applico uno stile coerente a ogni bottone
+
     private void styleButton(JButton btn) {
         btn.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         btn.setBackground(new Color(200, 220, 255));
@@ -107,7 +106,7 @@ public class HomeView extends JFrame {
     }
 
 
-    // Inizializzo tutti i listener dei pulsanti
+    // Inizializzazione di tutti i listener dei pulsanti
     private void initListeners() {
         btnLoginOrganizzatore.addMouseListener(new MouseAdapter() {
             @Override

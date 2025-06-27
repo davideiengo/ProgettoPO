@@ -26,10 +26,10 @@ public class TeamMembersSelectionView extends JFrame {
         // Ottieni lista di utenti già in un team
         List<Utente> utentiGiaInTeam = hackathon.getUtentiInTeam();
 
-// Carica dal DB solo gli utenti registrati a questa hackathon
+        // Carica dal DB solo gli utenti registrati a questa hackathon
         List<Utente> tuttiUtenti = UtenteModel.getInstance().trovaPerHackathon(hackathon.getTitoloIdentificativo());
 
-// Popola solo utenti non ancora assegnati ad altri team, non giudici, e registrati
+        // Popola solo utenti non ancora assegnati ad altri team, non giudici, e registrati
         for (Utente u : tuttiUtenti) {
             if (!utentiGiaInTeam.stream().anyMatch(t -> t.getNome().equals(u.getNome()))
                     && !(u instanceof Giudice)

@@ -61,7 +61,6 @@ public class UserRegistrationView extends JFrame {
         });
     }
 
-    // Campo con etichetta
     private void styleLabeledField(String label, JComponent field) {
         JLabel lbl = new JLabel(label);
         lbl.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -73,7 +72,6 @@ public class UserRegistrationView extends JFrame {
         panelMain.add(Box.createVerticalStrut(10));
     }
 
-    // Bottone stilizzato
     private void styleButton(JButton btn) {
         btn.setMaximumSize(new Dimension(200, 35));
         btn.setFont(new Font("Segoe UI", Font.PLAIN, 14));

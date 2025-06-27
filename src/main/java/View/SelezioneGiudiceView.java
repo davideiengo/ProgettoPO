@@ -41,7 +41,7 @@ public class SelezioneGiudiceView extends JFrame {
         // Campo Password
         addLabeledField(mainPanel, "Imposta Password Giudice:", txtPassword = new JTextField());
 
-        // Pulsante conferma con stile
+
         btnConferma = new JButton("Conferma");
         btnConferma.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         btnConferma.setBackground(new Color(200, 220, 255));

@@ -27,7 +27,7 @@ public class TeamCreationView extends JFrame {
         mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 40, 30, 40));
         mainPanel.setBackground(new Color(245, 245, 245)); // grigio chiaro
 
-        // Titolo in cima
+        // Titolo
         JLabel titolo = new JLabel("Crea un nuovo Team");
         titolo.setFont(new Font("Segoe UI", Font.BOLD, 20));
         titolo.setForeground(new Color(40, 40, 40));
@@ -35,7 +35,6 @@ public class TeamCreationView extends JFrame {
         mainPanel.add(titolo);
         mainPanel.add(Box.createVerticalStrut(25));
 
-        // Stile componenti
         styleComponent(txtNomeTeam);
         styleComponent(comboHackathon);
         styleButton(btnScegliMembri);
@@ -80,7 +79,4 @@ public class TeamCreationView extends JFrame {
         return comboHackathon;
     }
 
-    public void setController(TeamController controller) {
-        this.controller = controller;
-    }
 }

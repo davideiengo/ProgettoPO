@@ -115,11 +115,6 @@ public class LoginGiudiceView extends JFrame {
         panel.add(btn);
     }
 
-    // Getter usati dal controller
-    public JButton getBtnTornaHome() {
-        return btnTornaHome;
-    }
-
     public JComboBox<String> getComboHackathon() {
         return comboHackathon;
     }

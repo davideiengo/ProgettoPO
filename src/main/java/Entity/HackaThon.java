@@ -103,7 +103,6 @@ public class HackaThon {
             TeamRegistry.registraTeam(team.getNomeTeam());
         }
 
-        // 🔇 Nessun messaggio nel ramo else: il controller si occupa già di informare l’utente
     }
 
     public boolean registraUtente(Utente utente) {
