@@ -90,7 +90,7 @@ public class TeamController {
                 }
             }
 
-            //  Team con nome duplicato (in memoria)
+            //  Team con nome duplicato
             if (TeamRegistry.esisteTeam(team.getNomeTeam())) {
                 JOptionPane.showMessageDialog(view, "Errore: Esiste già un team con questo nome.");
                 return;

@@ -42,24 +42,6 @@ public class PostgresGiudiceDAO implements GiudiceDAO {
     }
 
     @Override
-    public List<Giudice> getTutti() {
-        List<Giudice> lista = new ArrayList<>();
-        try (Connection conn = DBConnection.getConnection()) {
-            String sql = "SELECT nome FROM giudice";
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                Giudice g = new Giudice(new Entity.Utente(rs.getString("nome")));
-                g.setRegistrato(true);
-                lista.add(g);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return lista;
-    }
-
-    @Override
     public List<Giudice> getGiudiciPerHackathon(String titoloHackathon) {
         List<Giudice> lista = new ArrayList<>();
         try (Connection conn = DBConnection.getConnection()) {

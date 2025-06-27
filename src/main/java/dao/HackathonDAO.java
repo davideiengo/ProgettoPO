@@ -9,5 +9,4 @@ public interface HackathonDAO {
     HackaThon trovaPerTitolo(String titolo);
     List<HackaThon> trovaTutti();
     void aggiorna(HackaThon hackathon);
-    void elimina(String titolo);
 }

@@ -72,53 +72,6 @@ public class PostgresTeamDAO implements TeamDAO {
     }
 
     @Override
-    public List<Team> trovaTutti() {
-        List<Team> lista = new ArrayList<>();
-        try (Connection conn = DBConnection.getConnection()) {
-            String sql = "SELECT nome FROM team";
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                Team t = trovaPerNome(rs.getString("nome"));
-                if (t != null) lista.add(t);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return lista;
-    }
-
-    @Override
-    public void aggiorna(Team team) {
-        try (Connection conn = DBConnection.getConnection()) {
-            String sql = "UPDATE team SET dim_massima = ? WHERE nome = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, team.getDimMassimaTeam());
-            stmt.setString(2, team.getNomeTeam());
-            stmt.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void elimina(String nomeTeam) {
-        try (Connection conn = DBConnection.getConnection()) {
-            String sqlMembri = "DELETE FROM team_membri WHERE team_nome = ?";
-            PreparedStatement stmtMembri = conn.prepareStatement(sqlMembri);
-            stmtMembri.setString(1, nomeTeam);
-            stmtMembri.executeUpdate();
-
-            String sql = "DELETE FROM team WHERE nome = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, nomeTeam);
-            stmt.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
     public List<Team> trovaTeamPerHackathon(String titoloHackathon) {
         List<Team> lista = new ArrayList<>();
         try (Connection conn = DBConnection.getConnection()) {

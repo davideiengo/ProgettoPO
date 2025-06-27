@@ -47,7 +47,7 @@ public class LoginGiudiceController {
             return;
         }
 
-        //  Login OK → apro la schermata di valutazione
+        //  Se il login è ok apro la schermata di valutazione
         HackaThon hackathon = HackathonModel.getInstance().getHackathonByTitolo(titoloHackathon);
         JOptionPane.showMessageDialog(view, "Accesso effettuato con successo!");
         new ValutazioneTeamController(hackathon.getTitoloIdentificativo(), giudiceSel);

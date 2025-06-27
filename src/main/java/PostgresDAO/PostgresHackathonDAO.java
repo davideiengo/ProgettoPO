@@ -99,17 +99,6 @@ public class PostgresHackathonDAO implements HackathonDAO {
         }
     }
 
-    @Override
-    public void elimina(String titolo) {
-        try (Connection conn = DBConnection.getConnection()) {
-            String sql = "DELETE FROM hackathon WHERE titolo = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, titolo);
-            stmt.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
 }
 

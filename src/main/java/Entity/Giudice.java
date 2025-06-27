@@ -15,7 +15,7 @@ public class Giudice extends Utente {
                 .getTitoloIdentificativo()
                 .equalsIgnoreCase(hackathon.getTitoloIdentificativo());
 
-        if (!stessoHackathon) {                 // ←  controllo più robusto
+        if (!stessoHackathon) {
             System.out.println("⚠️ Il team '" + team.getNomeTeam()
                     + "' non appartiene all'hackathon selezionato.");
             return;
@@ -27,7 +27,7 @@ public class Giudice extends Utente {
         if (nuovoVoto) {
             // … e persiste nel database
             new PostgresVotoDAO().salvaVoto(team.getNomeTeam(), this.getNome(), voto);
-            System.out.println("💾 Voto salvato: Team=" + team.getNomeTeam()
+            System.out.println("Voto salvato: Team=" + team.getNomeTeam()
                     + ", Giudice=" + this.getNome() + ", Voto=" + voto);
         } else {
             System.out.println("⚠️ Il giudice " + this.getNome()

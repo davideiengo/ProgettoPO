@@ -42,25 +42,6 @@ public class PostgresUtenteDAO implements UtenteDAO {
         return utente;
     }
 
-    @Override
-    public List<Utente> trovaTutti() {
-        List<Utente> utenti = new ArrayList<>();
-        try (Connection conn = DBConnection.getConnection()) {
-            String sql = "SELECT * FROM utente";
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-
-            while (rs.next()) {
-                Utente u = new Utente(rs.getString("nome"));
-                u.setRegistrato(rs.getBoolean("registrato"));
-                utenti.add(u);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return utenti;
-    }
-
     public void salvaAssociazioneUtenteHackathon(String utenteNome, String hackathonTitolo) {
         try (Connection conn = DBConnection.getConnection()) {
             String sql = "INSERT INTO utente_hackathon (utente_nome, hackathon_titolo) VALUES (?, ?)";

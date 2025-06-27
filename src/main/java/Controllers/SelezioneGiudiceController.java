@@ -33,7 +33,7 @@ public class SelezioneGiudiceController {
         String titolo = (String) view.getComboHackathon().getSelectedItem();
         if (titolo == null) return;
 
-        // Legge i registrati direttamente dal DB
+        // Legge i registrati dal DB
         for (Utente u : UtenteModel.getInstance().trovaPerHackathon(titolo)) {
             if (u.getRegistrato()) {               // mostro solo chi è realmente registrato
                 view.getComboUtenti().addItem(u.getNome());
