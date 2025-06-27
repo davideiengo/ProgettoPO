@@ -36,12 +36,14 @@ public class HomeView extends JFrame {
         JMenuItem menuHome = new JMenuItem("Torna alla Home");
         JMenuItem menuEsci = new JMenuItem("Esci");
         JMenu menuAiuto = new JMenu("Aiuto");
+        JMenuItem menuGuida = new JMenuItem("Guida utilizzo");
         JMenuItem menuInfo = new JMenuItem("Info progetto");
 
         menuFile.add(menuHome);
         menuFile.addSeparator();
         menuFile.add(menuEsci);
         menuAiuto.add(menuInfo);
+        menuAiuto.add(menuGuida);
         menuBar.add(menuFile);
         menuBar.add(menuAiuto);
         setJMenuBar(menuBar);
@@ -93,6 +95,40 @@ public class HomeView extends JFrame {
         menuInfo.addActionListener(e -> JOptionPane.showMessageDialog(this,
                 "Progetto PO - Gestione Hackathon\nRealizzato da Antonio Giaccio e Davide Iengo\nAnno Accademico 2024/25",
                 "Info", JOptionPane.INFORMATION_MESSAGE));
+
+        menuGuida.addActionListener(e -> {
+            JTextArea textArea = new JTextArea();
+            textArea.setEditable(false);
+            textArea.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+            textArea.setText("""
+        ✨ BENVENUTO NEL GESTORE HACKATHON ✨
+
+        Questa guida ti accompagnerà passo dopo passo per utilizzare correttamente l'applicazione:
+
+        1️⃣ Vai nella sezione "Organizzatore"
+           → Inserisci il nome e crea un nuovo hackathon.
+
+        2️⃣ Vai su "Registra Utente"
+           → Inserisci i dati dell’utente e seleziona l’hackathon appena creato.
+
+        3️⃣ Torna in "Organizzatore"
+           → Clicca su "Scelta Giudice" per selezionare un utente registrato come giudice.
+
+        4️⃣ Entra in "Area Giudice"
+           → Scegli l’hackathon, seleziona il giudice e inserisci la password scelta in precedenza.
+
+        5️⃣ Seleziona un team, assegna il voto e clicca su "Pubblica Classifica".
+
+        6️⃣ Torna nella Home e clicca su "Visualizza Classifica" per vedere i risultati finali.
+
+        ℹ️ Assicurati che ogni passaggio venga eseguito correttamente per evitare errori!
+        """);
+
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            scrollPane.setPreferredSize(new Dimension(600, 350));
+
+            JOptionPane.showMessageDialog(this, scrollPane, "Guida all'utilizzo", JOptionPane.INFORMATION_MESSAGE);
+        });
     }
 
 
