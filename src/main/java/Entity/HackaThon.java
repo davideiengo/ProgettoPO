@@ -49,6 +49,7 @@ public class HackaThon {
             g.setRegistrato(true);
 
         }
+
     }
 
     public ArrayList<Giudice> getGiudici() {

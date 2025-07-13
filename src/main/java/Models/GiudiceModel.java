@@ -13,7 +13,6 @@ import java.util.List;
 public class GiudiceModel {
     private static GiudiceModel instance;
     private ArrayList<Giudice> giudici = new ArrayList<>();
-    private HashMap<Giudice, String> passwordGiudici = new HashMap<>();
     private GiudiceDAO giudiceDAO = new PostgresGiudiceDAO();
 
 
