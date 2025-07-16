@@ -115,8 +115,6 @@ public class LoginGiudiceController {
         });
     }
 
-
-
     /**
      * Carica tutti gli {@code HackaThon} nella combo box per la selezione.
      */
@@ -126,7 +124,6 @@ public class LoginGiudiceController {
             view.getComboHackathon().addItem(h.getTitoloIdentificativo());
         }
     }
-
 
     /**
      * Carica tutti i giudici associati a un {@code HackaThon} selezionato nella combo box.
