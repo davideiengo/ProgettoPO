@@ -8,8 +8,17 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementazione della classe {@code UtenteDAO} per l'interazione con il database PostgreSQL.
+ * Gestisce le operazioni CRUD per gli utenti, inclusi salvataggio, ricerca, associazione a hackathon e verifica.
+ */
 public class PostgresUtenteDAO implements UtenteDAO {
 
+    /**
+     * Salva un utente nel database.
+     *
+     * @param utente L'utente da salvare.
+     */
     @Override
     public void salvaUtente(Utente utente) {
         try (Connection conn = DBConnection.getConnection()) {
@@ -23,6 +32,12 @@ public class PostgresUtenteDAO implements UtenteDAO {
         }
     }
 
+    /**
+     * Recupera un utente dal database dato il suo nome.
+     *
+     * @param nome Il nome dell'utente da cercare.
+     * @return L'utente trovato, o {@code null} se non esiste.
+     */
     @Override
     public Utente trovaPerNome(String nome) {
         Utente utente = null;
@@ -42,6 +57,12 @@ public class PostgresUtenteDAO implements UtenteDAO {
         return utente;
     }
 
+    /**
+     * Salva l'associazione tra un utente e un hackathon nel database.
+     *
+     * @param utenteNome Il nome dell'utente.
+     * @param hackathonTitolo Il titolo dell'hackathon.
+     */
     public void salvaAssociazioneUtenteHackathon(String utenteNome, String hackathonTitolo) {
         try (Connection conn = DBConnection.getConnection()) {
             String sql = "INSERT INTO utente_hackathon (utente_nome, hackathon_titolo) VALUES (?, ?)";
@@ -54,6 +75,12 @@ public class PostgresUtenteDAO implements UtenteDAO {
         }
     }
 
+    /**
+     * Recupera una lista di utenti associati a un hackathon dato il titolo dell'hackathon.
+     *
+     * @param titoloHackathon Il titolo dell'hackathon.
+     * @return Una lista di utenti registrati a quel hackathon.
+     */
     public List<Utente> trovaUtentiPerHackathon(String titoloHackathon) {
         List<Utente> utenti = new ArrayList<>();
         try (Connection conn = DBConnection.getConnection()) {
@@ -78,6 +105,12 @@ public class PostgresUtenteDAO implements UtenteDAO {
         return utenti;
     }
 
+    /**
+     * Verifica se un utente è un giudice.
+     *
+     * @param nomeUtente Il nome dell'utente da verificare.
+     * @return {@code true} se l'utente è un giudice, {@code false} altrimenti.
+     */
     public boolean isGiudice(String nomeUtente) {
         try (Connection conn = DBConnection.getConnection()) {
             String sql = "SELECT 1 FROM giudice WHERE nome = ?";
@@ -91,7 +124,15 @@ public class PostgresUtenteDAO implements UtenteDAO {
         return false;
     }
 
+    /**
+     * Verifica se un utente ha già un team associato in un hackathon specifico.
+     *
+     * @param nomeUtente Il nome dell'utente da verificare.
+     * @param titoloHackathon Il titolo dell'hackathon.
+     * @return {@code true} se l'utente è già assegnato a un team nell'hackathon, {@code false} altrimenti.
+     */
     public boolean utenteHaGiaUnTeamNellHackathon(String nomeUtente, String titoloHackathon) {
+
         try (Connection conn = DBConnection.getConnection()) {
             String sql = """
             SELECT 1

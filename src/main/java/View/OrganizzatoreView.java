@@ -10,6 +10,10 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * La vista per l'area dell'organizzatore. Permette di creare un nuovo hackathon,
+ * aprire le registrazioni, selezionare i giudici e tornare alla home.
+ */
 public class OrganizzatoreView extends JFrame {
     private JPanel testSolo;
     private JTextField txtNomeOrganizzatore;
@@ -21,6 +25,10 @@ public class OrganizzatoreView extends JFrame {
     private JButton btnSelezionaGiudice;
     private OrganizzatoreController controller;
 
+    /**
+     * Costruttore della vista dell'area Organizzatore. Imposta la UI e i listener
+     * necessari per il corretto funzionamento.
+     */
     public OrganizzatoreView() {
         setTitle("Area Organizzatore");
         setSize(550, 500);
@@ -99,7 +107,12 @@ public class OrganizzatoreView extends JFrame {
         });
     }
 
-    // Aggiunta di un campo con etichetta
+    /**
+     * Aggiunge un campo di input (text field) con la sua etichetta.
+     *
+     * @param labelText Il testo dell'etichetta.
+     * @param field     Il campo di input (JTextField).
+     */
     private void addLabeledField(String labelText, JTextField field) {
         JLabel label = new JLabel(labelText);
         label.setFont(new Font("Segoe UI", Font.PLAIN, 14));
@@ -114,7 +127,12 @@ public class OrganizzatoreView extends JFrame {
         testSolo.add(Box.createVerticalStrut(15));
     }
 
-    // Stile uniforme per i bottoni
+    /**
+     * Applica lo stile per i bottoni.
+     *
+     * @param btn   Il bottone da stilizzare.
+     * @param testo Il testo da visualizzare nel bottone.
+     */
     private void styleButton(JButton btn, String testo) {
         btn.setText(testo);
         btn.setFont(new Font("Segoe UI", Font.PLAIN, 14));

@@ -9,13 +9,24 @@ import java.util.List;
 
 import javax.swing.*;
 import java.awt.*;
-
+/**
+ * Vista per la selezione dei membri di un team per un hackathon.
+ * Consente di visualizzare una lista di utenti registrati e di aggiungerli al team selezionato.
+ */
 public class TeamMembersSelectionView extends JFrame {
     private JPanel panel;
     private JList<String> listaUtenti;
     private JButton btnAggiungi;
     private DefaultListModel<String> modelList;
 
+    /**
+     * Costruttore per la visualizzazione della selezione dei membri del team.
+     * Carica la lista degli utenti registrati e non ancora assegnati ad altri team,
+     * per permettere all'organizzatore di selezionarli e aggiungerli al team.
+     *
+     * @param team Il team a cui aggiungere i membri.
+     * @param hackathon L'hackathon per il quale si stanno selezionando i membri.
+     */
     public TeamMembersSelectionView(Team team, HackaThon hackathon) {
         setTitle("Selezione Membri Team");
         setSize(400, 300);

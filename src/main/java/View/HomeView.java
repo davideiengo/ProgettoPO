@@ -12,7 +12,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-
+/**
+ * La vista principale dell'applicazione che gestisce l'interfaccia utente per le operazioni
+ * di gestione degli hackathon, registrazione degli utenti, creazione dei team e visualizzazione delle classifiche.
+ */
 public class HomeView extends JFrame {
     private JPanel homeView;
     private JButton btnRegistraUtente;
@@ -23,6 +26,10 @@ public class HomeView extends JFrame {
     private JButton btnVisualizzaClassifica;
     private HomeController controller;
 
+    /**
+     * Costruttore della vista principale, che imposta l'interfaccia utente, i layout,
+     * i pulsanti e i listener per le azioni dell'utente.
+     */
     public HomeView() {
         controller = new HomeController(this);
         setTitle("Hackathon Manager - Home");
@@ -131,7 +138,11 @@ public class HomeView extends JFrame {
         });
     }
 
-
+    /**
+     * Stile personalizzato per i pulsanti.
+     *
+     * @param btn Il pulsante da stilizzare.
+     */
     private void styleButton(JButton btn) {
         btn.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         btn.setBackground(new Color(200, 220, 255));
@@ -139,8 +150,9 @@ public class HomeView extends JFrame {
         btn.setBorder(BorderFactory.createLineBorder(Color.GRAY));
     }
 
-
-    // Inizializzazione di tutti i listener dei pulsanti
+    /**
+     * Inizializza tutti i listener per i pulsanti e le azioni associate.
+     */
     private void initListeners() {
         btnLoginOrganizzatore.addMouseListener(new MouseAdapter() {
             @Override
@@ -218,7 +230,9 @@ public class HomeView extends JFrame {
         });
     }
 
-    // Carico tutte le hackathon nella combo per la visualizzazione classifica
+    /**
+     * Carica tutti gli hackathon disponibili nella combobox per la visualizzazione della classifica.
+     */
     private void caricaHackathonPerClassifica() {
         comboHackathonClassifica.removeAllItems();
         for (HackaThon h : HackathonModel.getInstance().getTutti()) {

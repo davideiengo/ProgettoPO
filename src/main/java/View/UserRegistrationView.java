@@ -7,7 +7,10 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-
+/**
+ * Vista per la registrazione di un nuovo utente ad un hackathon.
+ * Permette di inserire il nome dell'utente e selezionare un hackathon al quale iscriversi.
+ */
 public class UserRegistrationView extends JFrame {
     private JPanel panelMain;
     private JTextField txtNomeUtente;
@@ -16,6 +19,11 @@ public class UserRegistrationView extends JFrame {
     private JButton btnTornaHome;
     private UserController controller;
 
+    /**
+     * Costruttore che inizializza la vista della registrazione utente.
+     * Imposta il layout della finestra, aggiunge i campi di input per il nome dell'utente e la selezione dell'hackathon,
+     * e gestisce le azioni legate ai bottoni.
+     */
     public UserRegistrationView() {
         setTitle("Registrazione Utente");
         setSize(450, 300);
@@ -61,6 +69,12 @@ public class UserRegistrationView extends JFrame {
         });
     }
 
+    /**
+     * Imposta lo stile per i campi di input con etichetta.
+     *
+     * @param label Il testo dell'etichetta.
+     * @param field Il campo di input (ad esempio, JTextField o JComboBox).
+     */
     private void styleLabeledField(String label, JComponent field) {
         JLabel lbl = new JLabel(label);
         lbl.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -72,6 +86,11 @@ public class UserRegistrationView extends JFrame {
         panelMain.add(Box.createVerticalStrut(10));
     }
 
+    /**
+     * Imposta lo stile per i bottoni della finestra.
+     *
+     * @param btn Il bottone da stilizzare.
+     */
     private void styleButton(JButton btn) {
         btn.setMaximumSize(new Dimension(200, 35));
         btn.setFont(new Font("Segoe UI", Font.PLAIN, 14));
@@ -83,7 +102,11 @@ public class UserRegistrationView extends JFrame {
         panelMain.add(btn);
     }
 
-
+    /**
+     * Aggiunge i titoli degli hackathon disponibili alla combo box di selezione.
+     *
+     * @param titoli Lista degli hackathon disponibili.
+     */
     public void setHackathonList(ArrayList<String> titoli) {
         comboHackathon.removeAllItems();
         for (String titolo : titoli) {

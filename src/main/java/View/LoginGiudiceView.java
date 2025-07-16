@@ -7,6 +7,11 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+
+/**
+ * La vista per il login dell'area giudice. Gestisce la selezione dell'hackathon,
+ * la scelta del giudice e l'autenticazione tramite password.
+ */
 public class LoginGiudiceView extends JFrame {
     private JComboBox<String> comboHackathon;
     private JComboBox<String> comboGiudici;
@@ -15,9 +20,13 @@ public class LoginGiudiceView extends JFrame {
     private JButton btnTornaHome;
     private JPanel panel;
 
-    // Controller inizializzato subito
+
     LoginGiudiceController loginGiudiceController = new LoginGiudiceController(this);
 
+    /**
+     * Costruttore della vista di login per l'area giudice. Imposta la UI e i listener
+     * necessari per il corretto funzionamento.
+     */
     public LoginGiudiceView() {
         setTitle("Login Giudice");
         setSize(450, 380);
@@ -86,7 +95,11 @@ public class LoginGiudiceView extends JFrame {
         setVisible(true);
     }
 
-    // Metodo per aggiungere etichette
+    /**
+     * Aggiunge un'etichetta alla finestra.
+     *
+     * @param testo Il testo da visualizzare nell'etichetta.
+     */
     private void addLabel(String testo) {
         JLabel label = new JLabel(testo);
         label.setFont(new Font("Segoe UI", Font.PLAIN, 14));
@@ -95,7 +108,11 @@ public class LoginGiudiceView extends JFrame {
         panel.add(Box.createVerticalStrut(5));
     }
 
-    // Stile per campi di input
+    /**
+     * Applica lo stile ad un componente di tipo campo di inserimento (es. ComboBox, TextField).
+     *
+     * @param comp Il componente da stilizzare.
+     */
     private void styleField(JComponent comp) {
         comp.setMaximumSize(new Dimension(300, 30));
         comp.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -103,7 +120,11 @@ public class LoginGiudiceView extends JFrame {
         panel.add(Box.createVerticalStrut(15));
     }
 
-    // Stile per pulsanti
+    /**
+     * Applica lo stile ad un pulsante.
+     *
+     * @param btn Il pulsante da stilizzare.
+     */
     private void styleButton(JButton btn) {
         btn.setMaximumSize(new Dimension(200, 35));
         btn.setFont(new Font("Segoe UI", Font.PLAIN, 14));
@@ -115,18 +136,38 @@ public class LoginGiudiceView extends JFrame {
         panel.add(btn);
     }
 
+    /**
+     * Restituisce la ComboBox contenente gli hackathon disponibili.
+     *
+     * @return La ComboBox degli hackathon.
+     */
     public JComboBox<String> getComboHackathon() {
         return comboHackathon;
     }
 
+    /**
+     * Restituisce la ComboBox contenente i giudici disponibili.
+     *
+     * @return La ComboBox dei giudici.
+     */
     public JComboBox<String> getComboGiudici() {
         return comboGiudici;
     }
 
+    /**
+     * Restituisce il campo password.
+     *
+     * @return Il campo password.
+     */
     public JPasswordField getTxtPassword() {
         return txtPassword;
     }
 
+    /**
+     * Restituisce il pulsante "Accedi".
+     *
+     * @return Il pulsante "Accedi".
+     */
     public JButton getBtnAccedi() {
         return btnAccedi;
     }

@@ -8,9 +8,17 @@ import Entity.Organizzatore;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Implementazione della classe {@code HackathonDAO} per l'interazione con il database PostgreSQL.
+ * Gestisce le operazioni CRUD per gli hackathon, inclusi salvataggio, recupero, aggiornamento e ricerca.
+ */
 public class PostgresHackathonDAO implements HackathonDAO {
 
+    /**
+     * Salva un hackathon nel database.
+     *
+     * @param hackathon L'hackathon da salvare.
+     */
     @Override
     public void salvaHackathon(HackaThon hackathon) {
         try (Connection conn = DBConnection.getConnection()) {
@@ -26,6 +34,12 @@ public class PostgresHackathonDAO implements HackathonDAO {
         }
     }
 
+    /**
+     * Recupera un hackathon dal database dato il titolo.
+     *
+     * @param titolo Il titolo dell'hackathon da cercare.
+     * @return L'hackathon trovato, o {@code null} se non esiste.
+     */
     @Override
     public HackaThon trovaPerTitolo(String titolo) {
         HackaThon hackathon = null;
@@ -54,6 +68,11 @@ public class PostgresHackathonDAO implements HackathonDAO {
         return hackathon;
     }
 
+    /**
+     * Recupera tutti gli hackathon presenti nel database.
+     *
+     * @return Una lista di hackathon.
+     */
     @Override
     public List<HackaThon> trovaTutti() {
         List<HackaThon> lista = new ArrayList<>();
@@ -84,6 +103,11 @@ public class PostgresHackathonDAO implements HackathonDAO {
         return lista;
     }
 
+    /**
+     * Aggiorna un hackathon esistente nel database.
+     *
+     * @param hackathon L'hackathon con i nuovi dati.
+     */
     @Override
     public void aggiorna(HackaThon hackathon) {
         try (Connection conn = DBConnection.getConnection()) {

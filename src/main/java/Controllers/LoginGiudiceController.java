@@ -11,14 +11,32 @@ import java.util.List;
 
 import javax.swing.*;
 
+/**
+ * La classe {@code LoginGiudiceController} gestisce la logica di accesso dei giudici alla piattaforma.
+ * Permette di eseguire il login e di navigare verso la vista di valutazione team una volta autenticato.
+ */
+
 public class LoginGiudiceController {
+
+
     private LoginGiudiceView view;
 
+    /**
+     * Costruttore della classe {@code LoginGiudiceController}.
+     * Inizializza la vista e imposta gli ascoltatori per gli eventi.
+     *
+     * @param view Vista di login del giudice.
+     */
     public LoginGiudiceController(LoginGiudiceView view) {
         this.view = view;
         inizializza();
     }
 
+    /**
+     * Esegue il login del giudice.
+     * Verifica che tutti i campi siano compilati, che il giudice esista per l'{@code HackaThon} selezionato
+     * e che la password sia corretta. In caso di successo, apre la vista di valutazione.
+     */
     public void eseguiLogin() {
         String titoloHackathon = (String) view.getComboHackathon().getSelectedItem();
         String nomeGiudice     = (String) view.getComboGiudici().getSelectedItem();
@@ -54,6 +72,9 @@ public class LoginGiudiceController {
         view.dispose();
     }
 
+    /**
+     * Inizializza i dati necessari per il login e configura gli ascoltatori di eventi.
+     */
     private void inizializza() {
         caricaHackathon();
 
@@ -94,6 +115,11 @@ public class LoginGiudiceController {
         });
     }
 
+
+
+    /**
+     * Carica tutti gli {@code HackaThon} nella combo box per la selezione.
+     */
     public void caricaHackathon() {
         view.getComboHackathon().removeAllItems();
         for (HackaThon h : HackathonModel.getInstance().getTutti()) {
@@ -101,6 +127,12 @@ public class LoginGiudiceController {
         }
     }
 
+
+    /**
+     * Carica tutti i giudici associati a un {@code HackaThon} selezionato nella combo box.
+     *
+     * @param titoloHackathon Il titolo dell'{@code HackaThon} per cui caricare i giudici.
+     */
     public void caricaGiudiciPerHackathon(String titoloHackathon) {
         view.getComboGiudici().removeAllItems();
         for (Giudice g : GiudiceModel.getInstance().trovaPerHackathon(titoloHackathon)) {
@@ -108,6 +140,10 @@ public class LoginGiudiceController {
         }
     }
 
+    /**
+     * Torna alla schermata principale (Home).
+     * Chiude la vista di login e riapre la vista home.
+     */
     public void tornaHome() {
         view.dispose();
         new HomeView(); // Riapre la home

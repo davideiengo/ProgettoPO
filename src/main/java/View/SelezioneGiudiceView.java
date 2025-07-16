@@ -4,7 +4,10 @@ import Controllers.SelezioneGiudiceController;
 
 import javax.swing.*;
 import java.awt.*;
-
+/**
+ * La vista per l'assegnazione di un utente come giudice per un hackathon.
+ * Permette di selezionare un hackathon, un utente registrato e impostare una password per il giudice.
+ */
 public class SelezioneGiudiceView extends JFrame {
     private JComboBox<String> comboHackathon;
     private JComboBox<String> comboUtenti;
@@ -12,6 +15,11 @@ public class SelezioneGiudiceView extends JFrame {
     private JButton btnConferma;
     private SelezioneGiudiceController controller;
 
+
+    /**
+     * Costruttore della vista Selezione Giudice. Imposta la UI e i listener
+     * necessari per la selezione del giudice.
+     */
     public SelezioneGiudiceView() {
         setTitle("Selezione Giudice");
         setSize(450, 350);
@@ -61,7 +69,14 @@ public class SelezioneGiudiceView extends JFrame {
         setVisible(true);
     }
 
-    // Metodo per aggiungere etichetta + campo con stile
+    /**
+     * Aggiunge un campo di input (combo box o text field) con la relativa etichetta
+     * al pannello.
+     *
+     * @param panel     Il pannello a cui aggiungere l'elemento.
+     * @param labelText Il testo dell'etichetta.
+     * @param field     Il componente da aggiungere (ComboBox o TextField).
+     */
     private void addLabeledField(JPanel panel, String labelText, JComponent field) {
         JLabel label = new JLabel(labelText);
         label.setFont(new Font("Segoe UI", Font.PLAIN, 14));
@@ -76,15 +91,29 @@ public class SelezioneGiudiceView extends JFrame {
         panel.add(Box.createVerticalStrut(15));
     }
 
-    // Getter per controller
+    /**
+     * Restituisce la combo box degli hackathon.
+     *
+     * @return La combo box contenente gli hackathon.
+     */
     public JComboBox<String> getComboHackathon() {
         return comboHackathon;
     }
 
+    /**
+     * Restituisce la combo box degli utenti.
+     *
+     * @return La combo box contenente gli utenti registrati.
+     */
     public JComboBox<String> getComboUtenti() {
         return comboUtenti;
     }
 
+    /**
+     * Restituisce il campo di testo per la password del giudice.
+     *
+     * @return Il campo di testo per la password.
+     */
     public JTextField getTxtPassword() {
         return txtPassword;
     }

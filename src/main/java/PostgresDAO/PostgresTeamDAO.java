@@ -9,9 +9,18 @@ import Entity.HackaThon;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Implementazione della classe {@code TeamDAO} per l'interazione con il database PostgreSQL.
+ * Gestisce le operazioni CRUD per i team, inclusi salvataggio, recupero, e ricerca.
+ */
 public class PostgresTeamDAO implements TeamDAO {
 
+
+    /**
+     * Salva un team nel database.
+     *
+     * @param team Il team da salvare.
+     */
     @Override
     public void salvaTeam(Team team) {
         try (Connection conn = DBConnection.getConnection()) {
@@ -36,6 +45,13 @@ public class PostgresTeamDAO implements TeamDAO {
         }
     }
 
+
+    /**
+     * Recupera un team dal database dato il nome.
+     *
+     * @param nomeTeam Il nome del team da cercare.
+     * @return Il team trovato, o {@code null} se non esiste.
+     */
     @Override
     public Team trovaPerNome(String nomeTeam) {
         Team team = null;
@@ -71,6 +87,12 @@ public class PostgresTeamDAO implements TeamDAO {
         return team;
     }
 
+    /**
+     * Recupera tutti i team appartenenti ad un hackathon dato il titolo.
+     *
+     * @param titoloHackathon Il titolo dell'hackathon.
+     * @return Una lista di team che partecipano all'hackathon.
+     */
     @Override
     public List<Team> trovaTeamPerHackathon(String titoloHackathon) {
         List<Team> lista = new ArrayList<>();

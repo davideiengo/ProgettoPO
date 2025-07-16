@@ -2,7 +2,11 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
-
+/**
+ * Vista per la valutazione dei team da parte del giudice.
+ * Consente al giudice di selezionare un team e assegnare un voto tra 1 e 10.
+ * Inoltre, consente di pubblicare la classifica e tornare alla home.
+ */
 public class ValutazioneTeamView extends JFrame {
     private JComboBox<String> comboTeam;
     private JSpinner spinnerVoto;
@@ -10,6 +14,14 @@ public class ValutazioneTeamView extends JFrame {
     private JButton btnPubblicaClassifica;
     private JButton btnTornaHome;
 
+
+    /**
+     * Costruttore che inizializza la vista di valutazione del team.
+     * Configura l'interfaccia utente con il titolo, la selezione del team, il voto e i bottoni per interagire con la logica.
+     *
+     * @param titoloHackathon Il titolo dell'hackathon a cui si riferisce la valutazione.
+     * @param nomeGiudice Il nome del giudice che sta effettuando la valutazione.
+     */
     public ValutazioneTeamView(String titoloHackathon, String nomeGiudice) {
         setTitle("Valutazione Team - Giudice: " + nomeGiudice);
         setSize(400, 300);
@@ -57,23 +69,47 @@ public class ValutazioneTeamView extends JFrame {
         setVisible(true);
     }
 
-
+    /**
+     * Restituisce la combobox per la selezione del team.
+     *
+     * @return JComboBox contenente i team da selezionare.
+     */
     public JComboBox<String> getComboTeam() {
         return comboTeam;
     }
 
+    /**
+     * Restituisce lo spinner per la selezione del voto.
+     *
+     * @return JSpinner per selezionare il voto (compreso tra 1 e 10).
+     */
     public JSpinner getSpinnerVoto() {
         return spinnerVoto;
     }
 
+    /**
+     * Restituisce il bottone per assegnare il voto al team selezionato.
+     *
+     * @return JButton per assegnare il voto.
+     */
     public JButton getBtnAssegnaVoto() {
         return btnAssegnaVoto;
     }
 
+    /**
+     * Restituisce il bottone per pubblicare la classifica dei team.
+     *
+     * @return JButton per pubblicare la classifica.
+     */
     public JButton getBtnPubblicaClassifica() {
         return btnPubblicaClassifica;
     }
 
+    /**
+     * Restituisce il bottone per tornare alla home.
+     *
+     * @return JButton per tornare alla schermata principale.
+     */
     public JButton getBtnTornaHome() {
         return btnTornaHome;
     }

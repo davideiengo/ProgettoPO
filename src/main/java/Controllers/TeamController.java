@@ -15,26 +15,50 @@ import View.TeamMembersSelectionView;
 
 import javax.swing.*;
 import java.util.List;
-
+/**
+ * La classe {@code TeamController} gestisce la creazione e la registrazione di un team
+ * all'interno di un hackathon.
+ * Fornisce funzionalità per la selezione del team, la gestione dei membri e la validazione dei dati.
+ */
 public class TeamController {
 
+    /** Vista per la creazione del team */
     private TeamCreationView view;
+
+    /** Modello per la gestione del team */
     private TeamModel model;
+
+    /** Hackathon selezionato per la registrazione del team */
     private HackaThon selectedHackathon;
+
+    /** Team che viene creato */
     private Team team;
 
+    /**
+     * Costruttore della classe {@code TeamController}.
+     * Inizializza la vista, il modello e popola la combo box degli hackathon.
+     *
+     * @param view La vista per la creazione del team.
+     */
     public TeamController(TeamCreationView view) {
         this.view = view;
         this.model = new TeamModel();
         popolaComboBox();
     }
 
+    /**
+     * Popola la combo box con i titoli degli hackathon disponibili.
+     */
     private void popolaComboBox() {
         for (HackaThon h : HackathonModel.getInstance().getTutti()) {
             view.getComboHackathon().addItem(h.getTitoloIdentificativo());
         }
     }
 
+    /**
+     * Apre la finestra per la selezione dei membri del team.
+     * Controlla se il nome del team è già utilizzato e seleziona l'hackathon.
+     */
     public void apriSceltaMembri() {
         String titolo = (String) view.getComboHackathon().getSelectedItem();
         selectedHackathon = HackathonModel.getInstance().getHackathonByTitolo(titolo);
@@ -55,6 +79,12 @@ public class TeamController {
         }
     }
 
+    /**
+     * Crea il team dopo aver validato che il team abbia almeno un membro e che non superi
+     * il numero massimo di membri.
+     * Inoltre, verifica che i membri non siano già assegnati ad altri team nell'hackathon
+     * e che non siano giudici.
+     */
     public void creaTeam() {
         if (team != null) {
             // Controlla che il team abbia almeno un membro
@@ -109,6 +139,9 @@ public class TeamController {
         }
     }
 
+    /**
+     * Torna alla schermata principale (Home).
+     */
     public void tornaAllaHome() {
         view.setVisible(false);
         new HomeView();

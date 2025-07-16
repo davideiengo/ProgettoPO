@@ -5,9 +5,20 @@ import database.DBConnection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Implementazione della classe {@code VotoDAO} per l'interazione con il database PostgreSQL.
+ * Gestisce le operazioni relative ai voti dei team, inclusi il salvataggio e il recupero dei voti.
+ */
 public class PostgresVotoDAO implements VotoDAO {
 
+    /**
+     * Salva un voto dato da un giudice a un team nel database.
+     * Se esiste già un voto per quel team da parte dello stesso giudice, il voto viene aggiornato.
+     *
+     * @param teamNome Il nome del team.
+     * @param giudiceNome Il nome del giudice.
+     * @param voto Il voto da assegnare.
+     */
     @Override
     public void salvaVoto(String teamNome, String giudiceNome, int voto) {
         try (Connection conn = DBConnection.getConnection()) {
@@ -30,6 +41,12 @@ public class PostgresVotoDAO implements VotoDAO {
         }
     }
 
+    /**
+     * Recupera tutti i voti assegnati a un team specifico.
+     *
+     * @param teamNome Il nome del team.
+     * @return Una lista di voti assegnati al team.
+     */
     @Override
     public List<Integer> getVotiPerTeam(String teamNome) {
         List<Integer> voti = new ArrayList<>();

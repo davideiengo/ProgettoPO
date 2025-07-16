@@ -12,22 +12,40 @@ import Models.UtenteModel;
 
 
 import javax.swing.*;
-
+/**
+ * La classe {@code SelezioneGiudiceController} gestisce la selezione del giudice per un hackathon.
+ * Permette di selezionare un utente registrato e associarlo come giudice a un hackathon.
+ */
 public class SelezioneGiudiceController {
+
+    /** Vista per la selezione del giudice */
     private SelezioneGiudiceView view;
 
+    /**
+     * Costruttore della classe {@code SelezioneGiudiceController}.
+     * Inizializza la vista e popola la combo box con i titoli degli hackathon.
+     *
+     * @param view La vista per la selezione del giudice.
+     */
     public SelezioneGiudiceController(SelezioneGiudiceView view) {
         this.view = view;
         popolaHackathonCombo();
         view.getComboHackathon().addActionListener(e -> aggiornaUtentiRegistrati());
     }
 
+    /**
+     * Popola la combo box con i titoli di tutti gli hackathon registrati.
+     */
     private void popolaHackathonCombo() {
         for (HackaThon h : HackathonModel.getInstance().getTutti()) {
             view.getComboHackathon().addItem(h.getTitoloIdentificativo());
         }
     }
 
+    /**
+     * Aggiorna la lista degli utenti registrati per un hackathon selezionato.
+     * Mostra solo gli utenti che sono effettivamente registrati.
+     */
     private void aggiornaUtentiRegistrati() {
         view.getComboUtenti().removeAllItems();
         String titolo = (String) view.getComboHackathon().getSelectedItem();
@@ -41,6 +59,12 @@ public class SelezioneGiudiceController {
         }
     }
 
+    /**
+     * Conferma la selezione di un utente come giudice per l'hackathon selezionato.
+     * Crea un oggetto {@code Giudice} e lo associa all'hackathon.
+     *
+     * @throws IllegalArgumentException Se uno dei campi è vuoto o non valido.
+     */
     public void confermaGiudice() {
         String hackathonTitolo = (String) view.getComboHackathon().getSelectedItem();
         String utenteNome      = (String) view.getComboUtenti().getSelectedItem();
@@ -63,7 +87,7 @@ public class SelezioneGiudiceController {
                 .orElse(null);
 
         if (utente == null) {
-            JOptionPane.showMessageDialog(view, "Errore: utente non trovato tra i registrati.");
+                JOptionPane.showMessageDialog(view, "Errore: utente non trovato tra i registrati.");
             return;
         }
 
